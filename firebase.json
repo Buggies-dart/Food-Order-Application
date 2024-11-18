@@ -1,0 +1,40 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "halle-s-dining-food-order-app",
+          "appId": "1:232490901330:android:99ba0f20794236420da48b",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "halle-s-dining-food-order-app",
+          "configurations": {
+            "android": "1:232490901330:android:99ba0f20794236420da48b",
+            "ios": "1:232490901330:ios:547e79f0856c2feb0da48b",
+            "macos": "1:232490901330:ios:547e79f0856c2feb0da48b",
+            "web": "1:232490901330:web:dea3e1670c521b100da48b"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

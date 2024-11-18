@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "232490901330",
+    "project_id": "halle-s-dining-food-order-app",
+    "storage_bucket": "halle-s-dining-food-order-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232490901330:android:99ba0f20794236420da48b",
+        "android_client_info": {
+          "package_name": "com.hallefooddelivery.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD53D-v8pMdgFRiisBengteEs6kJQUO6Qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
