@@ -107,7 +107,6 @@ class StripeService {
   }
 
   void _showErrorDialog(BuildContext context, String message) {
-    print('error dialog');
     showDialog(
       context: context,
       builder: (_) => AlertDialog(  

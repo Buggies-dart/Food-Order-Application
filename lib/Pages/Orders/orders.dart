@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/firebase%20auth/firebaseutils.dart';
 import 'package:food_delivery_app/state_management.dart';
 import 'package:food_delivery_app/utils.dart';
 
@@ -15,7 +16,14 @@ class _OrderpageState extends ConsumerState<Orders> {
   Widget build(BuildContext context) {
   final cartInfo = ref.watch(Providers.myNotifProvider).order;
     return Scaffold( backgroundColor: Colors.white,
-      appBar: AppBar( centerTitle: true,
+      appBar: AppBar( centerTitle: true, actions: [
+        IconButton(onPressed: (){
+          showDialogBox(context, (){
+          cartInfo.clear(); 
+          Navigator.pop(context);
+          }, (){Navigator.pop(context);}, 'Clear Order History', 'This action can\'t be undone, proceed?');
+        }, icon: const Icon(Icons.delete, color: Colors.red,))
+      ],
         title: Text('Order History', style: AppWidget.largefontBold(),),
       ),
   body: cartInfo.isEmpty? Center(child: Text('No Orders Yet, Buy Some Meals.', style: AppWidget.mediumfontBold(),)) 
@@ -28,7 +36,7 @@ class _OrderpageState extends ConsumerState<Orders> {
             child: Row( 
               children: [
              const SizedBox( width: 15,),
-                   CircleAvatar( backgroundImage: AssetImage(cart['image']),
+                   CircleAvatar( backgroundImage: NetworkImage(cart['image']),
             radius: 45,),
            const SizedBox( width: 50,),
             Column( mainAxisAlignment: MainAxisAlignment.center,

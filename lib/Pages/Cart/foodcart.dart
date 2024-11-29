@@ -28,7 +28,9 @@ class _OrderpageState extends ConsumerState<FoodCart> {
   :Column(
     children: [ Expanded( child: ListView.builder( itemCount: cartInfo.length, itemBuilder: (context, index){
      final cart = cartInfo[index];
-  void tap (){showDialogBox(context, (){ ref.read(Providers.myNotifProvider).removeCart(cart);
+  void tap (){showDialogBox(context, (){ 
+  ref.read(Providers.myNotifProvider).firestoreCartRemove(cart['name'], context);
+  ref.read(Providers.myNotifProvider).removeCart(cart);
   Navigator.pop(context);
    }, (){Navigator.pop(context);}, 'Remove Product', 'Proceed with action?');  }
        return SizedBox( height: 140,
@@ -39,15 +41,15 @@ class _OrderpageState extends ConsumerState<FoodCart> {
               children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Container(color: null, height: 100, width: 47, decoration: BoxDecoration(
+              child: Container(color: null, height: 30, width: 30, decoration: BoxDecoration(
                 border: Border.all( width: 2), borderRadius: BorderRadius.circular(10)
               ),
                 child:  Center(child: Text(cart['quantity'].toString())),),
             ), 
-             const SizedBox( width: 15,),
-         CircleAvatar( backgroundImage: AssetImage(cart['image']),
-            radius: 45,),
-           const SizedBox( width: 20,),
+             SizedBox( width: MediaQuery.of(context).size.width/25,),
+         CircleAvatar( backgroundImage: NetworkImage(cart['image']),
+            radius: MediaQuery.of(context).size.height/20,),
+           SizedBox( width: MediaQuery.of(context).size.width/15,),
             Column( mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(cart['name'], style: AppWidget.mediumfontBold(),), 
@@ -92,8 +94,8 @@ class _OrderpageState extends ConsumerState<FoodCart> {
     
   purchase.removeWallet(totalPrice);
   addToOrders.addToOrders(cartInfo);
-
     Navigator.pop(context); cartInfo.clear();
+    showOrderConfirmationDialog();
       } else {
       showSnackbar(context, 'Insufficient Balance, Top Up and Try Again');
       Navigator.pop(context);
@@ -110,4 +112,51 @@ class _OrderpageState extends ConsumerState<FoodCart> {
   ),
   );
   }
+
+void showOrderConfirmationDialog() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        content:  Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.check_circle,
+              color: ShowColors.primary(),
+              size: 80,
+            ),
+            const SizedBox(height: 16),
+           const  Text(
+              'Hiyya! Your order is on the way to your delivery address.',
+              style:  TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+          const  Text(
+              'You should get your orders within 45 minutes.',
+              style:  TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 }

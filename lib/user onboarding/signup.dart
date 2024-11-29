@@ -17,6 +17,7 @@ bool showPassword = false;
 final TextEditingController controllerName = TextEditingController();
 final TextEditingController controllerMail = TextEditingController();
 final TextEditingController controllerPass = TextEditingController();
+final TextEditingController addressController = TextEditingController();
 
 @override
   void dispose() {
@@ -55,7 +56,7 @@ final TextEditingController controllerPass = TextEditingController();
             borderRadius:BorderRadius.circular(50)
           ),
        child: Padding( padding: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height/5
+        top: MediaQuery.of(context).size.height/4
        ),
          child: Row( mainAxisAlignment: MainAxisAlignment.center,
            children: [
@@ -64,36 +65,39 @@ final TextEditingController controllerPass = TextEditingController();
            ],
          ),
        ), ), 
-        Center(child: SizedBox( height: MediaQuery.of(context).size.height/1.7, width: 400,
-          child: Card(  color: Colors.white, shadowColor: Colors.black, elevation: 10,
-          
-          margin: EdgeInsets.only( bottom:  MediaQuery.of(context).size.height/11),
-                  
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              Text('Sign Up', style: AppWidget.largefontBold()),
-             const SizedBox( height: 10,),
-             signUpFields(Icons.person, 'Name', controllerName),
-            signUpFields(Icons.mail, 'Email', controllerMail),
-            signUpFields(Icons.password, 'Password', controllerPass),
-          const Align( alignment: Alignment.centerRight,
-             child: Padding(
-               padding: EdgeInsets.only(right: 15),
-        
+        Center(child: SizedBox( height: MediaQuery.of(context).size.height/1.5, width: 400,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Card(  color: Colors.white, shadowColor: Colors.black, elevation: 10,
+            
+            margin: EdgeInsets.only( bottom:  MediaQuery.of(context).size.height/11),
+                    
+                    child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Text('Sign Up', style: AppWidget.largefontBold()),
+               signUpFields(Icons.person, 'Name', controllerName),
+              signUpFields(Icons.mail, 'Email', controllerMail),
+              signUpFields(Icons.password, 'Password', controllerPass),
+              signUpFields(Icons.home, 'Enter Your TX, Houston Home Address', addressController),
+            const Align( alignment: Alignment.centerRight,
+               child: Padding(
+                 padding: EdgeInsets.only(right: 15),
+                    
+               ),
              ),
-           ),
-          const Spacer(),
-           Padding(
-             padding: const EdgeInsets.all(30),
-             child: signupButton(()async{
- await FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(username: controllerName.text, mail: controllerMail.text, password: controllerPass.text, context: context);
-  }),
-           ) 
-           ],
+            const Spacer(),
+             Padding(
+               padding: const EdgeInsets.all(30),
+               child: signupButton(()async{
+             await FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(username: controllerName.text, mail: controllerMail.text, password: controllerPass.text, context: context, address: addressController.text);
+              }),
+             ) 
+             ],
+            ),
+                    ),          ),
           ),
-        ),          ),
         )
         )
         ],

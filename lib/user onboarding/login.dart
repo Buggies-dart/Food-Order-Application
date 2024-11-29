@@ -69,7 +69,7 @@ TextEditingController controllerPass = TextEditingController();
            ],
          ),
        ), ), 
-        Center(child: SizedBox( height: MediaQuery.of(context).size.height/1.7, width: 400,
+        Center(child: SizedBox( height: MediaQuery.of(context).size.height/1.7, width: MediaQuery.of(context).size.width/1.15,
           child: Card(  color: Colors.white, shadowColor: Colors.black, elevation: 10,
           
           margin: EdgeInsets.only( bottom:  MediaQuery.of(context).size.height/11),

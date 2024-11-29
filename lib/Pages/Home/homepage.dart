@@ -17,18 +17,19 @@ class Homepage extends ConsumerStatefulWidget {
 }
 
 class _HomepageState extends ConsumerState<Homepage> {
-  int selected = 0;
 
   @override
   Widget build(BuildContext context) {
     final usernameAsyncValue = ref.watch(Providers.userProvider);
     final cart = ref.watch(Providers.myNotifProvider).cart;
+
     return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
+      body: 
+         SafeArea(
+          child: Column(
+            children: [
+              // Header Section
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +40,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                         usernameAsyncValue.when(
                           data: (username) {
                             return Text(
-                              'Hello ${username ?? 'Guest'}',
+                              'Hello ${username ?? 'Guest'} \u{1F44B}',
                               style: AppWidget.mediumfontBold(),
                             );
                           },
@@ -48,48 +49,64 @@ class _HomepageState extends ConsumerState<Homepage> {
                         ),
                         IconButton(
                           onPressed: () {
-    Navigator.push(context, MaterialPageRoute(builder: (context){
-      return const FoodCart();
-    }));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const FoodCart(),
+                              ),
+                            );
                           },
-              icon: cart.isEmpty? Icon(MdiIcons.cart) :
-                 Stack(children: [ Icon(MdiIcons.cart),
-            Positioned( left: 15,
-              child: Container( width: 9, height: 9,
-              decoration: BoxDecoration(color: ShowColors.secondary(),
-              borderRadius: BorderRadius.circular(10) ),),
-            ) ]),
+                          icon: cart.isEmpty
+                              ? Icon(MdiIcons.cart)
+                              : Stack(
+                                  children: [
+                                    Icon(MdiIcons.cart),
+                                    Positioned(
+                                      left: 15,
+                                      child: Container(
+                                        width: 9,
+                                        height: 9,
+                                        decoration: BoxDecoration(
+                                          color: ShowColors.secondary(),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                     Text('Delicious Food', style: AppWidget.largefontBold()),
-                    Text('Discover and order delicious meals!', style: AppWidget.lightFont()),
+                    Text(
+                      'Discover and order delicious meals!',
+                      style: AppWidget.lightFont(),
+                    ),
                     const SizedBox(height: 25),
-                    chipSelect(),
+                  const ChipSelect()
                   ],
                 ),
               ),
-            ),
-
-            SliverFillRemaining(
-              child: IndexedStack(
-                index: selected,
-                children: const [
-                  IceCream(),
-                  Pizza(),
-                  Meals(),
-                  Chickens(),
-                ],
-              ),
-            ),
-          ],
+              
+            ],
+          ),
         ),
-      ),
     );
   }
+}
 
-  Widget chipSelect() {
+int selected = 0;
+class ChipSelect extends StatefulWidget {
+  const ChipSelect({super.key});
+  @override
+  ChipSelectState createState() => ChipSelectState();
+}
+class ChipSelectState extends State<ChipSelect> {
+  
+
+  @override
+  Widget build(BuildContext context) {
     final chipIcons = [
       MdiIcons.iceCream,
       MdiIcons.pizza,
@@ -97,40 +114,64 @@ class _HomepageState extends ConsumerState<Homepage> {
       MdiIcons.foodDrumstick,
     ];
 
-    return SizedBox(
-      width: double.infinity,
-      height: 80,
-      child: ListView.builder(
-        itemCount: chipIcons.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 5, right: 48),
-            child: SizedBox(
-              width: 65,
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selected = index;
-                  });
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 73,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate( 
+                chipIcons.length,
+                (index) {
+                  return Padding(
+                    padding:  EdgeInsets.only(left: 5, right: MediaQuery.of(context).size.width/12,),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 6.5, height: 70,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selected = index; // Update the selected index when chip is tapped
+                          });
+                        },
+                        child: Chip(
+                          elevation: 5,
+                          side: BorderSide.none,
+                          padding: const EdgeInsets.only(right: 5, top: 7, bottom: 7),
+                          backgroundColor: selected == index
+                              ? ShowColors.secondary()
+                              : Colors.white,
+                          shadowColor: Colors.black,
+                          label: Center(
+                            child: Icon(
+                              chipIcons[index],
+                              size: 50,
+                              color: selected == index ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: Chip(
-                  elevation: 5,
-                  side: BorderSide.none,
-                  padding: const EdgeInsets.only(right: 5, top: 7, bottom: 7),
-                  backgroundColor: selected == index ? ShowColors.secondary() : Colors.white,
-                  shadowColor: Colors.black,
-                  label: Icon(
-                    chipIcons[index],
-                    size: 50,
-                    color: selected == index ? Colors.white : Colors.black,
-                  ),
-                ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        ),
+        const SizedBox( height: 20),
+         IndexedStack(
+           index: selected,
+           children: const [
+            IceCream(),
+              Pizza(),
+              Meals(),
+              Chickens(),
+           ],
+         ),
+      ],
     );
   }
 }
+
+

@@ -34,7 +34,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
          
          Center(
            child: Container( width: 350,  height: 350, color: null,
-            child: Image.asset( foodInfo['image'], 
+            child: Image.network( foodInfo['image'], 
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             fit: BoxFit.fill,

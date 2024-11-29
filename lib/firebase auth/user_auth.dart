@@ -5,7 +5,6 @@ import 'package:food_delivery_app/Pages/navigation.dart';
 import 'package:food_delivery_app/admin/adminhome.dart';
 import 'package:food_delivery_app/firebase%20auth/firebaseutils.dart';
 import 'package:food_delivery_app/user%20onboarding/login.dart';
-
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
@@ -14,6 +13,7 @@ class FirebaseAuthMethods {
     required String username,
     required String mail,
     required String password,
+    required String address,
     required BuildContext context,
   }) async {
     try {
@@ -27,6 +27,7 @@ class FirebaseAuthMethods {
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
         'username': username,
         'email': mail,
+        'address': address,
         'createdAt': FieldValue.serverTimestamp(),
       });
 
@@ -182,5 +183,52 @@ const LoginUI()));
   
 }
 }
-// Retrieve User Address
+// CONFIRM PASSWORD
+Future<void> confirmPassword(BuildContext context, String password, TextEditingController controller) async{
+  final user = FirebaseAuth.instance.currentUser;
+
+try {
+  if(user != null){
+    final credential = EmailAuthProvider.credential(
+      email: user.email!, // User's email
+      password: password, // Password entered by the user
+    );
+  await user.reauthenticateWithCredential(credential);
+  if (context.mounted) {
+    showChangeAddressModal(context, (){
+      changeAddress(context, controller.text);
+      Navigator.pop(context);
+    }, controller);
+  }
+   
+ }
+} catch (e) {
+  if (context.mounted) {
+  showSnackbar(context, 'Wrong Password, try again');
+   
+  }
+}
+}
+// UPDATE USER ADDRESS
+Future<void> changeAddress(BuildContext context, String addressChanged) async{
+ final userId = FirebaseAuth.instance.currentUser?.uid; 
+ try {
+   await FirebaseFirestore.instance
+    .collection('users')
+    .doc(userId)
+    .update({
+      "address": addressChanged
+    });
+    if (context.mounted) {
+  showUpdateAddressDialog(context);
+
+    }
+ } catch (e) {
+  if (context.mounted) {
+showSnackbar(context, 'Some unexpected error occurred, please try again later');
+
+  }
+ }
+
+}
 }

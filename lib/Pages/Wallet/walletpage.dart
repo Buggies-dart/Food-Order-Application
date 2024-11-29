@@ -27,19 +27,21 @@ class _WalletState extends ConsumerState<Wallet> {
     super.dispose();
     amountcontroller;
   }
-     void paymentfor100Bucks() async{
-StripeService().makePayment(context, ref,'20');  }
-  
-  void paymentfor500Bucks() async{
-  StripeService().makePayment(context, ref, '50');
+void paymentfor100Bucks() async{
+ await StripeService().makePayment(context, ref, '20');
+ }
+
+void paymentfor500Bucks() async{
+   await StripeService().makePayment(context, ref, '50');
   }
  
-  void paymentfor1KBucks() async{
-  StripeService().makePayment(context, ref, '100');
+void paymentfor1KBucks() async{
+   await StripeService().makePayment(context, ref, '100');
   }
  
   void paymentfor2KBucks() async{
-  StripeService().makePayment(context, ref, '150');
+  await StripeService().makePayment(context, ref, '150');
+
   }
   
   @override
@@ -75,9 +77,9 @@ StripeService().makePayment(context, ref,'20');  }
       SizedBox(  height: 60,
       width: MediaQuery.of(context).size.width / 1.09,
         child: ElevatedButton(onPressed: (){
-         openEdit();
+       openEdit();
         }, 
-             style: ElevatedButton.styleFrom(  backgroundColor: ShowColors.primary(),
+        style: ElevatedButton.styleFrom(  backgroundColor: ShowColors.primary(),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),),
@@ -121,7 +123,7 @@ StripeService().makePayment(context, ref,'20');  }
                 const Text(
                   "Add Money",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -144,27 +146,37 @@ StripeService().makePayment(context, ref,'20');  }
             ),
             const SizedBox(height: 20),
             Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  final String enteredAmount = amountcontroller.text.trim();
-
-                  if (enteredAmount.isEmpty) {
-                   showSnackbar(context, 'Please Enter Your Amount');
-                    return;
-                  }
-
-                  final double? parsedAmount = double.tryParse(enteredAmount);
-                  if (parsedAmount == null || parsedAmount <= 0) {
-                   showSnackbar(context, 'Please Enter a Valid Amount');
-                    return;
-                  }
-                     Navigator.pop(context);
-                    await StripeService().makePayment(context, ref, enteredAmount);
-                    amountcontroller.clear();
-                   
-                
-                },
-                child: const Text("Pay"),
+              child: SizedBox( width: MediaQuery.of(context).size.width /1.9, height: 45,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: ElevatedButton( 
+                  style:  ElevatedButton.styleFrom(
+                              backgroundColor:  ShowColors.primary(), shape:  RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), 
+                              )
+                  ),
+                    onPressed: () async {
+                      final String enteredAmount = amountcontroller.text.trim();
+                  
+                      if (enteredAmount.isEmpty) {
+                       showSnackbar(context, 'Please Enter Your Amount');
+                        return;
+                      }
+                  
+                      final double? parsedAmount = double.tryParse(enteredAmount);
+                      if (parsedAmount == null || parsedAmount <= 0) {
+                       showSnackbar(context, 'Please Enter a Valid Amount');
+                        return;
+                      }
+                         Navigator.pop(context);
+                        await StripeService().makePayment(context, ref, enteredAmount);
+                        amountcontroller.clear();
+                       
+                    
+                    },
+                    child: const Text("Pay", style: TextStyle(color: Colors.black, fontSize: 18),),
+                  ),
+                ),
               ),
             ),
           ],
@@ -173,6 +185,5 @@ StripeService().makePayment(context, ref,'20');  }
     },
   );
 }
-
  
 }
