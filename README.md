@@ -1,16 +1,17 @@
-# food_delivery_app
+# Food Delivery App
 
-A new Flutter project.
+## Description
+A Flutter-based food delivery app that allows users to browse product listings organized by categories, view their order history, and manage their wallet balance. The app offers a smooth checkout process for placing orders, making it easy and efficient to enjoy a seamless food delivery experience.
 
-## Getting Started
+## Features
+- **Wallet Management**: Users can easily add and track their wallet balance.
+- **Order History**: Users can view and track previous orders.
+- **Product Listings by Categories**: Browsing and selecting products is organized by categories for a seamless experience.
+- **Smooth Checkout Process**: Quick and efficient checkout to ensure users can order food with ease.
+- **Secure Payment Integration**: Integration with secure payment gateways for safe transactions.
+- **User Profile**: Users can manage and update their profile information.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/buggies-dart/food-delivery-app.git
