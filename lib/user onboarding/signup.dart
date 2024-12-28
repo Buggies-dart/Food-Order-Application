@@ -89,7 +89,7 @@ final TextEditingController addressController = TextEditingController();
              ),
             const Spacer(),
              Padding(
-               padding: const EdgeInsets.all(30),
+               padding: EdgeInsets.all(MediaQuery.of(context).size.height / 40),
                child: signupButton(()async{
              await FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(username: controllerName.text, mail: controllerMail.text, password: controllerPass.text, context: context, address: addressController.text);
               }),

@@ -26,70 +26,72 @@ class _HomepageState extends ConsumerState<Homepage> {
     return Scaffold(
       body: 
          SafeArea(
-          child: Column(
-            children: [
-              // Header Section
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        usernameAsyncValue.when(
-                          data: (username) {
-                            return Text(
-                              'Hello ${username ?? 'Guest'} \u{1F44B}',
-                              style: AppWidget.mediumfontBold(),
-                            );
-                          },
-                          error: (error, _) => Text('Error: $error'),
-                          loading: () => const Text(''),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const FoodCart(),
-                              ),
-                            );
-                          },
-                          icon: cart.isEmpty
-                              ? Icon(MdiIcons.cart)
-                              : Stack(
-                                  children: [
-                                    Icon(MdiIcons.cart),
-                                    Positioned(
-                                      left: 15,
-                                      child: Container(
-                                        width: 9,
-                                        height: 9,
-                                        decoration: BoxDecoration(
-                                          color: ShowColors.secondary(),
-                                          borderRadius: BorderRadius.circular(10),
+          child: SingleChildScrollView( scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                // Header Section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          usernameAsyncValue.when(
+                            data: (username) {
+                              return Text(
+                                'Hello ${username ?? 'Guest'} \u{1F44B}',
+                                style: AppWidget.mediumfontBold(),
+                              );
+                            },
+                            error: (error, _) => Text('Error: $error'),
+                            loading: () => const Text(''),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const FoodCart(),
+                                ),
+                              );
+                            },
+                            icon: cart.isEmpty
+                                ? Icon(MdiIcons.cart)
+                                : Stack(
+                                    children: [
+                                      Icon(MdiIcons.cart),
+                                      Positioned(
+                                        left: 15,
+                                        child: Container(
+                                          width: 9,
+                                          height: 9,
+                                          decoration: BoxDecoration(
+                                            color: ShowColors.secondary(),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Text('Delicious Food', style: AppWidget.largefontBold()),
-                    Text(
-                      'Discover and order delicious meals!',
-                      style: AppWidget.lightFont(),
-                    ),
-                    const SizedBox(height: 25),
-                  const ChipSelect()
-                  ],
+                                    ],
+                                  ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text('Delicious Food', style: AppWidget.largefontBold()),
+                      Text(
+                        'Discover and order delicious meals!',
+                        style: AppWidget.lightFont(),
+                      ),
+                      const SizedBox(height: 25),
+                    const ChipSelect()
+                    ],
+                  ),
                 ),
-              ),
-              
-            ],
+                
+              ],
+            ),
           ),
         ),
     );
