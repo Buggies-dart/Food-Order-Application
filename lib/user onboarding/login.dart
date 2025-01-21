@@ -34,7 +34,8 @@ TextEditingController controllerPass = TextEditingController();
  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold( backgroundColor: Colors.white,
+    final theme = Theme.of(context);
+    return Scaffold(
       body: isLoading == true ? const 
       Center(child:  CircularProgressIndicator.adaptive()) :
       Stack(
@@ -56,36 +57,29 @@ TextEditingController controllerPass = TextEditingController();
           MediaQuery.of(context).size.height/3 ),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration( color: Colors.white,
-            borderRadius:BorderRadius.circular(50)
+          decoration: BoxDecoration( color: theme.colorScheme.primaryContainer,
+            borderRadius: const BorderRadius.only( topLeft: Radius.circular(50), topRight: Radius.circular(50))
           ),
        child: Padding( padding: EdgeInsets.only(
         top: MediaQuery.of(context).size.height/5
        ),
          child: Row( mainAxisAlignment: MainAxisAlignment.center,
            children: [
-            Text('Don\'t have an account?', style: AppWidget.mediumfontBold(),),
-             TextButton(onPressed: signup, child: Text('Sign Up', style: AppWidget.mediumfontBold(),))
+            Text('Don\'t have an account?', style: theme.textTheme.displayMedium,),
+             TextButton(onPressed: signup, child: Text('Sign Up', style: theme.textTheme.displayMedium))
            ],
          ),
        ), ), 
         Center(child: SizedBox( height: MediaQuery.of(context).size.height/1.7, width: MediaQuery.of(context).size.width/1.15,
-          child: Card(  color: Colors.white, shadowColor: Colors.black, elevation: 10,
-          
+          child: Card(  color: theme.colorScheme.primaryContainer, shadowColor: Colors.black, elevation: 10,
           margin: EdgeInsets.only( bottom:  MediaQuery.of(context).size.height/11),
-                  
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              Text('Login', style: AppWidget.largefontBold()),
-             const SizedBox( height: 10,),
-            loginFields(Icons.mail, 'Email', controllerMail),
-            loginFields(Icons.password, 'Password', controllerPass),
-           Align( alignment: Alignment.centerRight,
-             child: Padding(
+  child: Padding( padding: const EdgeInsets.only(top: 20),child: Column(
+children: [ Text('Login', style: AppWidget.largefontBold()), const SizedBox( height: 10,),
+loginFields(Icons.mail, 'Email', controllerMail), loginFields(Icons.password, 'Password', controllerPass),
+  Align( alignment: Alignment.centerRight,
+   child: Padding(
                padding: const EdgeInsets.only(right: 15),
-               child: TextButton(onPressed: resetPassword, child:  Text('Forgot Password?', style: AppWidget.mediumfontBold(),
+               child: TextButton(onPressed: resetPassword, child:  Text('Forgot Password?', style: theme.textTheme.displayMedium
                ), )
                
              ),
@@ -114,34 +108,44 @@ TextEditingController controllerPass = TextEditingController();
   }
 
  Widget loginButton(onTap) {
-    return SizedBox( width: MediaQuery.of(context).size.width/1.3,
-      child: ElevatedButton(
-        onPressed: onTap, 
-                       style:  ElevatedButton.styleFrom( shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              minimumSize: const Size(80, 50), backgroundColor: ShowColors.primary()
-             ),
-             child: Text('LOGIN', style: AppWidget.buttonText(),),),
+    return SizedBox( width: MediaQuery.of(context).size.width/1.3, height: MediaQuery.of(context).size.height/20,
+      child: GestureDetector(  onTap: onTap, 
+        child: Container( 
+decoration: BoxDecoration( gradient: LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()]),
+borderRadius: BorderRadius.circular(15)),
+child: Center(child: Text('LOGIN', style: AppWidget.buttonText())),),
+      ),
     );
   }
 
   Widget loginFields(IconData icon, String hint, TextEditingController textController) {
     return Padding(
           padding: const EdgeInsets.all(20),
-          child:  TextField( controller: textController, obscureText: hint == 'Password' && showPassword == false? true : false,
+          child:  TextField( style:  Theme.of(context).textTheme.displaySmall, controller: textController, obscureText: hint == 'Password' && showPassword == false? true : false,
             decoration: InputDecoration( prefixIcon: Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: Icon(icon), 
+              child: navIconGradient(Icon(icon, color: whiteColor,)), 
             ), 
-            hintText: hint, hintStyle:const TextStyle( fontWeight: FontWeight.bold),
+            hintText: hint, hintStyle: TextStyle( fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).colorScheme.secondaryContainer),
             hoverColor: Colors.black, 
             suffixIcon: hint == 'Password' ? IconButton(onPressed: (){
            setState(() {
              showPassword = true;
            });
             }, icon: showPassword == false?
-            Icon(MdiIcons.eyeLock):Icon(MdiIcons.eyeCheck))
+            navIconGradient(Icon(MdiIcons.eyeLock, color: whiteColor,)):navIconGradient(Icon(MdiIcons.eyeCheck, color: whiteColor,)))
            :null ),
           ),
         );
+  }
+  Widget navIconGradient(Widget nav){
+    return ShaderMask( shaderCallback: (Rect bounds) {
+            return  LinearGradient(
+              colors:  [ShowColors.primary(), ShowColors.secondary()],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+            ).createShader(bounds);
+          },
+          child: nav);
   }
 }

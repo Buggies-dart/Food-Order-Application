@@ -4,8 +4,8 @@ import 'package:food_delivery_app/utils.dart';
 void showSnackbar(
   BuildContext context, String text
 ){
-ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text, style: 
-AppWidget.buttonText(),),
+ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Theme.of(context).colorScheme.primaryContainer, content: Text(text, style: 
+Theme.of(context).textTheme.displayMedium),
 elevation: 10,));
 }
 
@@ -13,8 +13,8 @@ void showDialogBox(BuildContext context, VoidCallback delete, VoidCallback noDel
 String title, String content){
   showDialog(context: context, builder: (context){
 return AlertDialog( backgroundColor: Colors.white, elevation: 5,
-  title: Text(title, style: AppWidget.mediumfontBold(), maxLines: 2,),
-content: Text(content, style: AppWidget.lightFont(),),
+  title: Text(title, style: Theme.of(context).textTheme.displayMedium, maxLines: 2,),
+content: Text(content, style: Theme.of(context).textTheme.displaySmall,),
 actions: [
   TextButton(onPressed: noDelete, child: const Text('No', style: TextStyle(color: Colors.black),)), 
   TextButton(onPressed: delete, child: const Text('Yes', style: TextStyle(color: Colors.red),))

@@ -8,6 +8,7 @@ import 'package:food_delivery_app/firebase%20auth/firebase_options.dart';
 import 'package:food_delivery_app/state_management.dart';
 import 'package:food_delivery_app/stripe%20payment/keys.dart';
 import 'package:food_delivery_app/user%20onboarding/pageviews.dart';
+import 'package:food_delivery_app/utils.dart';
 
 void main() async{ 
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ref.read(Providers.myNotifProvider).loadStateFromFirestore();
 
         return MaterialApp( debugShowCheckedModeBanner: false,
+      darkTheme: Palette.darkTheme,
+    theme: Palette.lightTheme,
+      themeMode: ThemeMode.light,
           home:  StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

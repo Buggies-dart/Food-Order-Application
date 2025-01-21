@@ -17,7 +17,8 @@ void resetPassword() async{
 }
   @override
   Widget build(BuildContext context) {
-    return  Scaffold( backgroundColor: Colors.black,
+    final theme = Theme.of(context);
+    return  Scaffold( backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(child: 
       Center(
         child: Column(
@@ -28,23 +29,22 @@ void resetPassword() async{
             IconButton(onPressed: (){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
          const LoginUI()));
-            }, icon: const Icon(Icons.arrow_back_ios, color: Colors.white,),),
+            }, icon:  const Icon(Icons.arrow_back_ios, color: secondaryContainer),),
            SizedBox( width: MediaQuery.of(context).size.width/8),
-         const Text('Recover Password', style: TextStyle(
-                fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold
-              ),),
+         Text('Recover Password', style: theme.textTheme.displayLarge
+              ),
            ],
          ),
          const SizedBox( height: 20),
-            Text('Enter your email address', style: AppWidget.buttonText(),),
+            Text('Enter your email address', style: theme.textTheme.displayMedium,),
            const SizedBox(height: 40,),
             Padding( 
               padding: const EdgeInsets.all(8.0),
-              child: TextField( controller: controller, style: const TextStyle(color: Colors.white),
+              child: TextField( controller: controller, style: TextStyle(color: theme.primaryColor, fontSize: 16),
                 decoration: InputDecoration( focusedBorder:  OutlineInputBorder(
-                  borderSide:const BorderSide( color: Colors.white),  borderRadius: BorderRadius.circular(25),
+                  borderSide:const BorderSide( color: Colors.white),  borderRadius: BorderRadius.circular(40),
                 ),
-              hintText: 'Email', prefixIcon: const Icon(Icons.person), hintStyle: const TextStyle( fontSize: 16, color: Colors.white),
+              hintText: 'Email', prefixIcon: navIconGradient( const Icon(Icons.person, size: 35, color: whiteColor,)), hintStyle: const TextStyle( fontSize: 16, color: Colors.white),
                 border: OutlineInputBorder( 
             borderRadius: BorderRadius.circular(25),
                        )
@@ -54,19 +54,27 @@ void resetPassword() async{
         const SizedBox( height: 30),
         SizedBox(  height: 55,
       width: MediaQuery.of(context).size.width / 1.06,
-          child: ElevatedButton(onPressed: resetPassword,
-           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ), 
-            ),
-             child: Text('Send Email', style: AppWidget.mediumfontBold(),), ),
+          child: GestureDetector(  onTap: resetPassword, 
+        child: Container( 
+decoration: BoxDecoration( gradient: LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()]),
+borderRadius: BorderRadius.circular(15)),
+child: Center(child: Text('LOGIN', style: AppWidget.buttonText())),),
+      ),
         )  
           ],
         ),
       )
       ),
     );
+  }
+  Widget navIconGradient(Widget nav){
+    return ShaderMask( shaderCallback: (Rect bounds) {
+            return  LinearGradient(
+              colors:  [ShowColors.primary(), ShowColors.secondary()],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+            ).createShader(bounds);
+          },
+          child: nav);
   }
 }

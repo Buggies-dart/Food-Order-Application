@@ -14,17 +14,32 @@ class FoodCart extends ConsumerStatefulWidget {
 class _OrderpageState extends ConsumerState<FoodCart> {
   @override
   Widget build(BuildContext context) {
+  final sizeHeight = MediaQuery.of(context).size.height;
+  final ThemeData theme = Theme.of(context);
   final cartInfo = ref.watch(Providers.myNotifProvider).cart;
   final wallet = ref.watch(Providers.myNotifProvider).wallet;
   final purchase = ref.read(Providers.myNotifProvider);
   final addToOrders = ref.read(Providers.myNotifProvider);
   final double totalPrice = cartInfo.fold(0, (sum, item) => sum + item['price'] * item['quantity']);
 
-    return Scaffold( backgroundColor: Colors.white,
-      appBar: AppBar( centerTitle: true,
-        title: Text('Food Cart', style: AppWidget.largefontBold(),),
+void checkOutFunction  (){
+  showDialogBox(context, (){
+   if (wallet >= totalPrice) { purchase.removeWallet(totalPrice); addToOrders.addToOrders(cartInfo);
+  Navigator.pop(context); cartInfo.clear();
+  showOrderConfirmationDialog();
+  } else {
+  showSnackbar(context, 'Insufficient Balance, Top Up and Try Again');
+  Navigator.pop(context);
+   }
+  }, (){Navigator.pop(context);}, 'Make Payment', '\$${totalPrice.toStringAsFixed(2)} will be deducted from your wallet, kindly confirm if you\'d like to pay' );
+  }
+return Scaffold( backgroundColor: theme.scaffoldBackgroundColor, appBar: AppBar( centerTitle: true, leading: IconButton(onPressed: (){
+ Navigator.pop(context);
+      }, icon: const Icon(Icons.arrow_back_ios, color: secondaryContainer,),),
+        title: Text('Food Cart', style: theme.textTheme.displayLarge,),
       ),
-  body: cartInfo.isEmpty? Center(child: Text('Your Cart Is Empty', style: AppWidget.mediumfontBold(),)) 
+  body: cartInfo.isEmpty? SingleChildScrollView( scrollDirection: Axis.vertical,
+  child: Center(child: Text('Your Cart Is Empty', style: theme.textTheme.displayMedium,))) 
   :Column(
     children: [ Expanded( child: ListView.builder( itemCount: cartInfo.length, itemBuilder: (context, index){
      final cart = cartInfo[index];
@@ -33,130 +48,122 @@ class _OrderpageState extends ConsumerState<FoodCart> {
   ref.read(Providers.myNotifProvider).removeCart(cart);
   Navigator.pop(context);
    }, (){Navigator.pop(context);}, 'Remove Product', 'Proceed with action?');  }
-       return SizedBox( height: 140,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Card( color: Colors.white, elevation: 5,
-            child: Row( 
-              children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(color: null, height: 30, width: 30, decoration: BoxDecoration(
-                border: Border.all( width: 2), borderRadius: BorderRadius.circular(10)
-              ),
-                child:  Center(child: Text(cart['quantity'].toString())),),
-            ), 
-             SizedBox( width: MediaQuery.of(context).size.width/25,),
-         CircleAvatar( backgroundImage: NetworkImage(cart['image']),
-            radius: MediaQuery.of(context).size.height/20,),
-           SizedBox( width: MediaQuery.of(context).size.width/15,),
-            Column( mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(cart['name'], style: AppWidget.mediumfontBold(),), 
-                Text('\$${cart['price']}'.toString(), style: AppWidget.mediumfontBold(),),
-              ],
-            ),
-            const Spacer(),
-             IconButton(onPressed: tap, icon: const Icon(Icons.delete, color: Colors.red,))
-              ],
-            ),
-          ),
-        ),
-      );
-    }),
+       return SizedBox( height: sizeHeight/7,
+child: Padding(
+padding: const EdgeInsets.all(5),
+child: SizedBox( 
+  child: Card( color: theme.colorScheme.primaryContainer, elevation: 5,
+  child: Row( 
+   children: [
+   Padding( padding: const EdgeInsets.all(10),
+  child: Container( height: 30, width: 30, decoration: BoxDecoration(
+  border: Border.all( width: 2, color:theme.primaryColor), borderRadius: BorderRadius.circular(10)
   ),
+    child:  Center(child: Text(cart['quantity'].toString(), style: TextStyle(color: theme.primaryColor),)),
+  ),
+  ), 
+  SizedBox( width: MediaQuery.of(context).size.width/25,),
+  CircleAvatar( backgroundImage: NetworkImage(cart['image']),
+  radius: MediaQuery.of(context).size.height/20,),
+  SizedBox( width: MediaQuery.of(context).size.width/15,),
+  Column( mainAxisAlignment: MainAxisAlignment.center,
+   children: [
+  Text(cart['name'], style: theme.textTheme.displayMedium,), 
+  const  SizedBox(height: 3,),
+  Text('\$${cart['price']}'.toString(), style: theme.textTheme.displayMedium,),
+   ],
+  ),
+  const Spacer(),
+  IconButton(onPressed: tap, icon:  const Icon(Icons.delete, color: tertiaryContainer,))
+   ],
+  ),
+  ),
+),
+),
+);
+}),
+),
  
- Padding(
-   padding: const EdgeInsets.only( bottom: 50),
-   child: Column(
-     children: [
-       Container( height: 50,
-         decoration: BoxDecoration( border: Border.all( width: 1, color: Colors.black26),
-       color: null,), 
-       child: Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        child: Row( 
-          children: [
-          Text('Total Price', style: AppWidget.mediumfontBold(),),
-          const Spacer(),
-          Text( totalPrice.toStringAsFixed(2), style: AppWidget.mediumfontBold())
-          ],
-        ),
-       ),
-       ),
-    const SizedBox( height: 10),
-   SizedBox( width: MediaQuery.of(context).size.width/1.1, height: 60,
-    child: ElevatedButton( style: ElevatedButton.styleFrom(backgroundColor: ShowColors.primary(),
-    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10))),
-      onPressed: (){
-        showDialogBox(context, (){
-      if (wallet >= totalPrice) {
-    
-  purchase.removeWallet(totalPrice);
-  addToOrders.addToOrders(cartInfo);
-    Navigator.pop(context); cartInfo.clear();
-    showOrderConfirmationDialog();
-      } else {
-      showSnackbar(context, 'Insufficient Balance, Top Up and Try Again');
-      Navigator.pop(context);
-      }
-
-        }, (){Navigator.pop(context);}, 'Make Payment', '\$${totalPrice.toStringAsFixed(2)} will be deducted from your wallet, kindly confirm if you\'d like to pay' );
-      }, child:  Text('CheckOut', style: AppWidget.userNameText(),)
-      )
-      ) ],
+Padding( padding: const EdgeInsets.all(10), child: Container( height: sizeHeight/3.3, width: double.infinity,
+     decoration: BoxDecoration(gradient: LinearGradient(colors: [ShowColors.primary(),
+   ShowColors.secondary()])
+  ,borderRadius: BorderRadius.circular(30)),
+  child: Padding( padding: const EdgeInsets.only( bottom: 50),
+  child: Column(
+         children: [
+     Container( height: sizeHeight/6, decoration: BoxDecoration( border: Border.all( width: 0, color: Colors.black26),
+     color: null), 
+     child: Padding( padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+     child: Column(
+       children: [
+         foodPrices(theme, totalPrice, const Text('Sub Total', style: TextStyle( color: whiteColor, fontSize: 16)), 
+        const TextStyle( color: whiteColor, fontSize: 16), totalPrice.toStringAsFixed(2)),
+         foodPrices(theme, totalPrice, const Text('Delivery Charge', style: TextStyle( color: whiteColor, fontSize: 16)), 
+        const TextStyle( color: whiteColor, fontSize: 16), '0.00'),
+         foodPrices(theme, totalPrice, const Text('Discount', style: TextStyle( color: whiteColor, fontSize: 16)), 
+         const TextStyle( color: whiteColor, fontSize: 16), '0.00'),
+         SizedBox( height: sizeHeight/22),
+         foodPrices(theme, totalPrice, const Text('Total Price', style: TextStyle( color: whiteColor, fontSize: 20, fontWeight: FontWeight.bold),), 
+         const TextStyle( color: whiteColor, fontSize: 20, fontWeight: FontWeight.bold), totalPrice.toStringAsFixed(2)),
+       ],
+     ),
+     ),
+     ),
+     SizedBox( height: sizeHeight/60,),
+     SizedBox( width: MediaQuery.of(context).size.width/1.1, height: sizeHeight/15,
+     child: GestureDetector( onTap: checkOutFunction,
+       child: Container(  decoration: BoxDecoration( color: whiteColor, borderRadius: BorderRadius.circular(10)
+),
+child: Center(child: Text('CheckOut', style: TextStyle( fontSize: 25, fontWeight: FontWeight.bold,
+foreground: Paint()..shader = LinearGradient( colors: [ShowColors.primary(), ShowColors.secondary()],
+begin: Alignment.topLeft, end: Alignment.bottomRight,).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+),
+))
+),
+)
+  ) ],
+  ),
+  ),
    ),
- ),
-
-    ],
+),
+],
   ),
   );
   }
 
+Row foodPrices(ThemeData theme, double totalPrice, Widget text, TextStyle textStyle, String price) {
+    return Row( 
+ children: [ text,
+ const Spacer(),
+ Text( '\$$price', style: textStyle)
+ ],
+ );
+  }
+
 void showOrderConfirmationDialog() {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        content:  Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.check_circle,
-              color: ShowColors.primary(),
-              size: 80,
-            ),
-            const SizedBox(height: 16),
-           const  Text(
-              'Hiyya! Your order is on the way to your delivery address.',
-              style:  TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-          const  Text(
-              'You should get your orders within 45 minutes.',
-              style:  TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Close'),
-          ),
-        ],
-      );
-    },
-  );
+showDialog( context: context, builder: (BuildContext context) {
+return AlertDialog( shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20),
+),
+content:  Column( mainAxisSize: MainAxisSize.min,
+children: [ Icon( Icons.check_circle, color: ShowColors.primary(), size: 80,),
+const SizedBox(height: 16),
+const  Text( 'Hiyya! Your order is on the way to your delivery address.',
+style:  TextStyle( fontSize: 18,
+fontWeight: FontWeight.bold,), textAlign: TextAlign.center,
+),const SizedBox(height: 8),
+const  Text( 'You should get your orders within 45 minutes.',
+style:  TextStyle(fontSize: 16), textAlign: TextAlign.center,
+),
+ ],
+),
+actions: [ TextButton( onPressed: () { Navigator.of(context).pop();
+},
+child: const Text('Close'),
+),
+],
+);
+},
+);
 }
 
 }
