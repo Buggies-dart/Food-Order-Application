@@ -23,26 +23,23 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
+Widget build(BuildContext context) {
+return Consumer(
+ builder: (context, ref, child) {
         // Trigger state loading from Firestore on app start
-        ref.read(Providers.myNotifProvider).loadStateFromFirestore();
-
-        return MaterialApp( debugShowCheckedModeBanner: false,
-      darkTheme: Palette.darkTheme,
-    theme: Palette.lightTheme,
-      themeMode: ThemeMode.light,
-          home:  StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            return const Navigation();
-          } else {
-            return const Onboarding();
-          }
+ref.read(Providers.myNotifProvider).loadStateFromFirestore();
+return MaterialApp( debugShowCheckedModeBanner: false,
+darkTheme: Palette.darkTheme, theme: Palette.lightTheme,
+themeMode: ThemeMode.dark, home:  StreamBuilder<User?>(
+stream: FirebaseAuth.instance.authStateChanges(),
+builder: (context, snapshot) {
+if (snapshot.connectionState == ConnectionState.waiting) {
+ return const CircularProgressIndicator();
+} else if (snapshot.hasData) {
+ return const Navigation();
+} else {
+return const Onboarding();
+}
         },
       ),
         );

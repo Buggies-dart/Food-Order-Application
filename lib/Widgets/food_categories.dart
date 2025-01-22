@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/Food%20Categories/categories.dart';
+import 'package:food_delivery_app/categories.dart';
 import 'package:food_delivery_app/Pages/Product%20Details/details.dart';
 import 'package:food_delivery_app/foods.dart';
 import 'package:food_delivery_app/utils.dart';
@@ -53,6 +53,7 @@ Padding(
 ),
 SizedBox( height: sizeHeight/4, width: double.infinity,
   child: ListView.builder( scrollDirection: Axis.horizontal, controller: controller,
+padding: const EdgeInsets.only(top: 0),
 itemCount: 4, itemBuilder: (context, index){
  return Padding(
     padding: const EdgeInsets.all(12),
@@ -88,14 +89,18 @@ shape: BoxShape.circle,
  Flexible( fit: FlexFit.loose,
    child: Column(  mainAxisSize: MainAxisSize.min,
      children: [
-   Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-   children: [
-   Text('Popular Menus', style: Theme.of(context).textTheme.displayMedium),
-   TextButton(onPressed: (){}, child: const Text('View More', style: TextStyle(color: secondaryColor),))
-   ],
+   Padding(
+     padding:  EdgeInsets.all(sizeWidth/30),
+     child: Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+     children: [
+     Text('Popular Menus', style: Theme.of(context).textTheme.displayMedium),
+     TextButton(onPressed: (){}, child: const Text('View More', style: TextStyle(color: secondaryColor),))
+     ],
+     ),
    ),
  Expanded(
-            child: ListView.builder(itemCount: randomFoods.length, scrollDirection: Axis.vertical, itemBuilder: (context, index){
+child: ListView.builder(itemCount: randomFoods.length, padding: const EdgeInsets.only(top: 0),
+ scrollDirection: Axis.vertical, itemBuilder: (context, index){
              final randomFood =randomFoods[index];
              return SizedBox( height: sizeHeight/10,
                child: Padding(
@@ -111,10 +116,10 @@ return ProductDetails(foodInfos: randomFood);
                    decoration: BoxDecoration(
                     color: whiteColor, borderRadius: BorderRadius.circular(10)
                  ),
-                    child: Image.network(randomFood['image'], fit: BoxFit.cover)), title: Text(randomFood['name'], style: Theme.of(context).textTheme.displayMedium,), subtitle: Text(randomFood['category'], style: const TextStyle(
-color: whiteColor2
-                    ),),
-              trailing: Text('\$${randomFood['price']}', style: const TextStyle(
+                    child: Image.network(randomFood['image'], fit: BoxFit.cover)), title: Text(randomFood['name'], style: Theme.of(context).textTheme.displayMedium,), subtitle: Text(randomFood['category'], style: TextStyle(
+color: Theme.of(context).primaryColor
+  ),),
+    trailing: Text('\$${randomFood['price']}', style: const TextStyle(
                  fontSize: 28, color: tertiaryContainer, fontWeight: FontWeight.bold
               ),),   ),
                ),

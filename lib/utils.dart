@@ -31,7 +31,7 @@ class Palette{
 displaySmall: TextStyle(
 fontSize: 18, color: whiteColor),
  bodySmall:  TextStyle(
-  fontSize: 18, fontWeight: FontWeight.bold, color: whiteColor
+  fontSize: 18, fontWeight: FontWeight.bold, color: whiteColor, height: 2
 ),
 titleLarge: TextStyle( fontSize: 25, fontWeight: FontWeight.bold,
   color: Colors.white)
@@ -46,7 +46,7 @@ titleLarge: TextStyle( fontSize: 25, fontWeight: FontWeight.bold,
   onSecondary: ShowColors.secondary(),
     primaryContainer: Colors.white,
    secondaryContainer:const Color(0xFFDA6317),
-  onSecondaryContainer:  const Color(0xFFF9A84D)
+  onSecondaryContainer:  const Color.fromARGB(255, 250, 215, 176)
 
   ),
   textTheme: const TextTheme(
@@ -60,7 +60,7 @@ titleLarge: TextStyle( fontSize: 25, fontWeight: FontWeight.bold,
  fontSize: 20, fontWeight: FontWeight.bold, color: blackColor
 ),
 displaySmall: TextStyle(
-fontSize: 18, color: blackColor),
+fontSize: 18, color: blackColor, height: 2),
  bodySmall:  TextStyle(
   fontSize: 18, fontWeight: FontWeight.bold, color: blackColor
 ),

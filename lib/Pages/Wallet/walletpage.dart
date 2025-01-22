@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:food_delivery_app/Widgets/mini_widgets.dart';
 import 'package:food_delivery_app/firebase%20auth/firebaseutils.dart';
 import 'package:food_delivery_app/state_management.dart';
 import 'package:food_delivery_app/stripe%20payment/keys.dart';
@@ -46,24 +47,31 @@ void paymentfor1KBucks() async{
   
   @override
   Widget build(BuildContext context) {
+  final theme = Theme.of(context);
   final wallet = ref.watch(Providers.myNotifProvider).wallet;
     return  Scaffold(
-  backgroundColor: Colors.white, appBar: AppBar( title: Text('Wallet', style: AppWidget.largefontBold(),),
-  centerTitle: true, backgroundColor: Colors.white,),
+  backgroundColor: theme.scaffoldBackgroundColor, appBar: AppBar( title: Text('Wallet', style: theme.textTheme.displayLarge,),
+  centerTitle: true, backgroundColor: theme.scaffoldBackgroundColor, leading: iconButton((){Navigator.pop(context);}),),
    body:  Column( 
     children: [
-      ListTile(leading: Image.asset('assets/logos/wallet.png', fit: BoxFit.cover,), tileColor: ShowColors.secondary(),
-      title: Padding(
-        padding: const EdgeInsets.only(left: 25),
-        child: Text('Your Wallet', style: AppWidget.lightFont(),),
+      Container( decoration: BoxDecoration(
+gradient: LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()])
       ),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(left: 25),
-        child: Text('\$${wallet.toStringAsFixed(2)}', style: AppWidget.mediumfontBold(),),
-      ),),
+child: ListTile(leading: Image.asset('assets/logos/wallet.png', fit: BoxFit.cover,),
+title: const Padding( padding:  EdgeInsets.only(left: 25),
+child: Text('Your Wallet', style: TextStyle( fontSize: 18, color: whiteColor
+),),
+),
+subtitle: Padding(
+padding: const EdgeInsets.only(left: 25),
+child: Text('\$${wallet.toStringAsFixed(2)}', style:  const TextStyle(
+ fontSize: 20, fontWeight: FontWeight.bold, color: whiteColor
+)),
+        ),),
+      ),
      Padding(
        padding:  EdgeInsets.only(top: 20, right: MediaQuery.of(context).size.width/1.5),
-       child: Text('Add Money', style:AppWidget.mediumfontBold(),),
+       child: Text('Add Money', style:theme.textTheme.displayMedium,),
      ),
        Row(  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          children: [
@@ -76,14 +84,17 @@ void paymentfor1KBucks() async{
       const SizedBox(height: 50,),
       SizedBox(  height: 60,
       width: MediaQuery.of(context).size.width / 1.09,
-        child: ElevatedButton(onPressed: (){
-       openEdit();
-        }, 
-        style: ElevatedButton.styleFrom(  backgroundColor: ShowColors.primary(),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),),
-             child: Text('Add Money', style: AppWidget.buttonText(),),),
+        child: Container( decoration: BoxDecoration( gradient: LinearGradient(colors: [
+ShowColors.primary(), ShowColors.secondary()
+        ]),
+ borderRadius: BorderRadius.circular(15),     ),
+          child: ElevatedButton(onPressed: (){
+openEdit();
+ }, 
+style: ElevatedButton.styleFrom(  backgroundColor: Colors.transparent, shadowColor: Colors.transparent,
+),
+child: Text('Add Money', style: AppWidget.buttonText(),),),
+        ),
       )
       ],
    ), 
@@ -92,7 +103,7 @@ void paymentfor1KBucks() async{
 
   Widget moneyChip(String text, VoidCallback addFunds) {
     return GestureDetector( onTap: addFunds,
-      child: Chip(label: Text('\$$text', style: AppWidget.mediumfontBold(),), backgroundColor: null,
+      child: Chip(label: Text('\$$text', style: Theme.of(context).textTheme.displayMedium,), backgroundColor: null,
        padding: const EdgeInsets.all(1),),
     );
   }
