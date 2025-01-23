@@ -35,3 +35,33 @@ Padding appBar(double sizeHeight, BuildContext context, double sizeWidth, ThemeD
           },
           child: nav);
   }
+
+void showOrderConfirmationDialog(BuildContext context) {
+showDialog( context: context, builder: (BuildContext context) {
+return AlertDialog( shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20),
+),
+content:  Column( mainAxisSize: MainAxisSize.min,
+children: [ Image.asset('assets/logos/success.png', width: 100, height: 100),
+const SizedBox(height: 16),
+  Text( 'Hiyya!',
+style:  TextStyle( fontSize: 25, color: ShowColors.primary(),
+fontWeight: FontWeight.bold,), textAlign: TextAlign.center,
+),
+const SizedBox(height: 8),
+ Text('Your order is on the way to your delivery address.', style:
+Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center,),
+const SizedBox(height: 8),
+  Text( 'You should get your orders within 45 minutes.',
+style:  Theme.of(context).textTheme.displaySmall,  textAlign: TextAlign.center,
+),
+ ],
+),
+actions: [ TextButton( onPressed: () { Navigator.of(context).pop();
+},
+child: const Text('Close'),
+),
+],
+);
+},
+);
+}

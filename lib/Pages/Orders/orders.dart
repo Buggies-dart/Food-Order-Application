@@ -61,7 +61,7 @@ return const Navigation();
                const SizedBox( width: 15,),
                      CircleAvatar( backgroundImage: NetworkImage(cart['image']),
               radius: 45,),
-             const SizedBox( width: 50,),
+              SizedBox( width: sizeWidth/10),
     Column( mainAxisAlignment: MainAxisAlignment.center,
     children: [
     Container( color: null, width: sizeWidth/4.3, height: sizeHeight/40,
@@ -70,7 +70,7 @@ return const Navigation();
     ), 
     Text(cart['category'], style: theme.textTheme.displaySmall),
     Text('\$${cart['price'].toString()}', style: TextStyle(
-      fontSize: 30, fontWeight: FontWeight.bold, foreground: Paint() ..shader =  LinearGradient(
+      fontSize: 27, fontWeight: FontWeight.bold, foreground: Paint() ..shader =  LinearGradient(
     colors: [ShowColors.primary(), ShowColors.secondary()], begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     ).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
@@ -83,7 +83,7 @@ child: GestureDetector( onTap:  (){
 showDialogBox(context, (){
     if (wallet >= cart['price']) { purchase.removeWallet(cart['price']); 
   Navigator.pop(context);
-  showOrderConfirmationDialog();
+  showOrderConfirmationDialog(context);
   } else {
   showSnackbar(context, 'Insufficient Balance, Top Up and Try Again');
   Navigator.pop(context);
@@ -118,37 +118,14 @@ showDialogBox(context, (){
       padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/28),
       child: TextButton(onPressed: (){
       showDialogBox(context, (){
-      cartInfo.clear(); 
+        setState(() {
+           cartInfo.clear(); 
+        });
       Navigator.pop(context);
       }, (){Navigator.pop(context);}, 'Clear Order History', 'This action can\'t be undone, proceed?');
       }, child:  const Text('Clear', style: TextStyle(color: secondaryContainer),)),
     );
   }
 
-  void showOrderConfirmationDialog() {
-showDialog( context: context, builder: (BuildContext context) {
-return AlertDialog( shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20),
-),
-content:  Column( mainAxisSize: MainAxisSize.min,
-children: [ Icon( Icons.check_circle, color: ShowColors.primary(), size: 80,),
-const SizedBox(height: 16),
-const  Text( 'Hiyya! Your order is on the way to your delivery address.',
-style:  TextStyle( fontSize: 18,
-fontWeight: FontWeight.bold,), textAlign: TextAlign.center,
-),const SizedBox(height: 8),
-const  Text( 'You should get your orders within 45 minutes.',
-style:  TextStyle(fontSize: 16), textAlign: TextAlign.center,
-),
- ],
-),
-actions: [ TextButton( onPressed: () { Navigator.of(context).pop();
-},
-child: const Text('Close'),
-),
-],
-);
-},
-);
-}
-
+  
 }

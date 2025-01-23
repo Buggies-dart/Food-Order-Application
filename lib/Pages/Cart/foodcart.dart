@@ -28,7 +28,7 @@ void checkOutFunction  (){
   showDialogBox(context, (){
    if (wallet >= totalPrice) { purchase.removeWallet(totalPrice); addToOrders.addToOrders(cartInfo);
   Navigator.pop(context); cartInfo.clear();
-  showOrderConfirmationDialog();
+  showOrderConfirmationDialog(context);
   } else {
   showSnackbar(context, 'Insufficient Balance, Top Up and Try Again');
   Navigator.pop(context);
@@ -163,30 +163,5 @@ Row foodPrices(ThemeData theme, double totalPrice, Widget text, TextStyle textSt
  );
   }
 
-void showOrderConfirmationDialog() {
-showDialog( context: context, builder: (BuildContext context) {
-return AlertDialog( shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20),
-),
-content:  Column( mainAxisSize: MainAxisSize.min,
-children: [ Icon( Icons.check_circle, color: ShowColors.primary(), size: 80,),
-const SizedBox(height: 16),
-const  Text( 'Hiyya! Your order is on the way to your delivery address.',
-style:  TextStyle( fontSize: 18,
-fontWeight: FontWeight.bold,), textAlign: TextAlign.center,
-),const SizedBox(height: 8),
-const  Text( 'You should get your orders within 45 minutes.',
-style:  TextStyle(fontSize: 16), textAlign: TextAlign.center,
-),
- ],
-),
-actions: [ TextButton( onPressed: () { Navigator.of(context).pop();
-},
-child: const Text('Close'),
-),
-],
-);
-},
-);
-}
 
 }

@@ -109,7 +109,6 @@ child: Text('Add Money', style: AppWidget.buttonText(),),),
   }
  Future<void> openEdit() async {
   if (!mounted) return;
-
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -117,83 +116,61 @@ child: Text('Add Money', style: AppWidget.buttonText(),),),
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (BuildContext context) {
-      return Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 20,
-          right: 20,
-          top: 20,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Add Money",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Text("Amount"),
-            const SizedBox(height: 10),
-            TextField(
-              controller: amountcontroller,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter Amount',
-              ),
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: SizedBox( width: MediaQuery.of(context).size.width /1.9, height: 45,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: ElevatedButton( 
-                  style:  ElevatedButton.styleFrom(
-                              backgroundColor:  ShowColors.primary(), shape:  RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), 
-                              )
-                  ),
-                    onPressed: () async {
-                      final String enteredAmount = amountcontroller.text.trim();
-                  
-                      if (enteredAmount.isEmpty) {
-                       showSnackbar(context, 'Please Enter Your Amount');
-                        return;
-                      }
-                  
-                      final double? parsedAmount = double.tryParse(enteredAmount);
-                      if (parsedAmount == null || parsedAmount <= 0) {
-                       showSnackbar(context, 'Please Enter a Valid Amount');
-                        return;
-                      }
-                         Navigator.pop(context);
-                        await StripeService().makePayment(context, ref, enteredAmount);
-                        amountcontroller.clear();
-                       
+return Padding(
+padding: EdgeInsets.only( bottom: MediaQuery.of(context).viewInsets.bottom,
+left: 20, right: 20, top: 20,),
+child: Column( mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
+children: [
+Row( mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+ Text( "Add Money", style:Theme.of(context).textTheme.displayMedium
+),
+IconButton( icon: const Icon(Icons.close),
+onPressed: () => Navigator.pop(context),
+),
+],
+),
+const SizedBox(height: 10),
+ Text("Amount", style:Theme.of(context).textTheme.displaySmall),
+const SizedBox(height: 10),
+TextField( controller: amountcontroller, keyboardType: TextInputType.number, decoration: InputDecoration(
+border: const OutlineInputBorder( borderRadius: BorderRadius.all(Radius.circular(40)), borderSide: BorderSide(width: 0.05)),
+hintText: 'Enter Amount', hintStyle:Theme.of(context).textTheme.displaySmall
+),
+),
+const SizedBox(height: 20),
+Center( child: SizedBox( width: MediaQuery.of(context).size.width /1.9, height: 45,
+child: Padding( padding: const EdgeInsets.only(bottom: 8),
+child: Container( decoration: BoxDecoration( gradient: LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()]),
+ borderRadius: BorderRadius.circular(10) ),
+  child: ElevatedButton( style:  ElevatedButton.styleFrom(
+  backgroundColor:  Colors.transparent, shadowColor: Colors.transparent
+   ),
+  onPressed: () async {
+  final String enteredAmount = amountcontroller.text.trim();
+  if (enteredAmount.isEmpty) {
+  showSnackbar(context, 'Please Enter Your Amount');
+  return;
+  }
                     
-                    },
-                    child: const Text("Pay", style: TextStyle(color: Colors.black, fontSize: 18),),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
+  final double? parsedAmount = double.tryParse(enteredAmount);
+  if (parsedAmount == null || parsedAmount <= 0) {
+   showSnackbar(context, 'Please Enter a Valid Amount');
+   return;
+   }
+   Navigator.pop(context);
+  await StripeService().makePayment(context, ref, enteredAmount);
+  amountcontroller.clear();
+  },
+  child: const Text("Pay", style: TextStyle(color: whiteColor, fontSize: 25),),
+  ),
+),
+),
+),
+),
+],
+),
+);
+},
   );
 }
  
