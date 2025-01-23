@@ -23,3 +23,15 @@ Padding appBar(double sizeHeight, BuildContext context, double sizeWidth, ThemeD
         ),
     );
   }
+
+
+ Widget navIconGradient(Widget nav){
+    return ShaderMask( shaderCallback: (Rect bounds) {
+            return  LinearGradient(
+              colors:  [ShowColors.primary(), ShowColors.secondary()],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+            ).createShader(bounds);
+          },
+          child: nav);
+  }

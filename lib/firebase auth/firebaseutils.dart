@@ -12,12 +12,20 @@ elevation: 10,));
 void showDialogBox(BuildContext context, VoidCallback delete, VoidCallback noDelete,
 String title, String content){
   showDialog(context: context, builder: (context){
-return AlertDialog( backgroundColor: Colors.white, elevation: 5,
-  title: Text(title, style: Theme.of(context).textTheme.displayMedium, maxLines: 2,),
+return AlertDialog( backgroundColor: Theme.of(context).colorScheme.primaryContainer, elevation: 5,
+  title: Row(
+    children: [
+      Text(title, style: Theme.of(context).textTheme.displayMedium, maxLines: 2,),
+    ],
+  ),
 content: Text(content, style: Theme.of(context).textTheme.displaySmall,),
 actions: [
-  TextButton(onPressed: noDelete, child: const Text('No', style: TextStyle(color: Colors.black),)), 
-  TextButton(onPressed: delete, child: const Text('Yes', style: TextStyle(color: Colors.red),))
+  TextButton(onPressed: noDelete, child: const Text('No', style: TextStyle(color: secondaryColor, fontSize: 16),)), 
+  TextButton(onPressed: delete, child: Text('Yes', style: TextStyle( fontSize: 16,
+  foreground: Paint()..shader = LinearGradient( colors: [ShowColors.primary(), ShowColors.secondary()],
+      begin: Alignment.topLeft, end: Alignment.bottomRight,).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+  ),
+  ))
 ],);
   });
 }

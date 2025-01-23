@@ -57,7 +57,7 @@ titleLarge: TextStyle( fontSize: 25, fontWeight: FontWeight.bold,
    fontSize: 27, fontWeight: FontWeight.bold
  ),
  displayMedium: TextStyle(
- fontSize: 20, fontWeight: FontWeight.bold, color: blackColor
+ fontSize: 20, fontWeight: FontWeight.bold, color: blackColor, 
 ),
 displaySmall: TextStyle(
 fontSize: 18, color: blackColor, height: 2),

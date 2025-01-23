@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/Pages/User%20Profile/t_and_c.dart';
+import 'package:food_delivery_app/Widgets/mini_widgets.dart';
 import 'package:food_delivery_app/firebase%20auth/firebaseutils.dart';
 import 'package:food_delivery_app/firebase%20auth/user_auth.dart';
 import 'package:food_delivery_app/state_management.dart';
@@ -41,26 +42,26 @@ File? selectedImage;
 TextEditingController password = TextEditingController();
 TextEditingController addressChanged = TextEditingController();
 
-   final displayNameHeader =  usernameAsyncValue.when(data: (username){
-            if (username != null) {
-         return Center(child: Text(username, style: AppWidget.userNameText())) ; } else { return const Text('');
-            }
-          }, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
-          );
+final displayNameHeader =  usernameAsyncValue.when(data: (username){
+if (username != null) {
+return Center(child: Text(username, style: AppWidget.userNameText())) ; } else { return const Text('');
+}
+}, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
+);
   
-   final displayName =  usernameAsyncValue.when(data: (username){
-            if (username != null) {
-         return Text(username, style: AppWidget.lightFont2()) ; } else { return const Text('');
-            }
-          }, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
-          );
+final displayName =  usernameAsyncValue.when(data: (username){
+if (username != null) {
+return Text(username, style: AppWidget.lightFont2()) ; } else { return const Text('');
+}
+}, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
+);
   
-   final displayAddress =  addressAsyncValue.when(data: (email){
-            if (email != null) {
-         return Text(email, style: AppWidget.lightFont2()) ; } else { return const Text('');
-            }
-          }, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
-          );
+final displayAddress =  addressAsyncValue.when(data: (email){
+if (email != null) {
+return Text(email, style: AppWidget.lightFont2()) ; } else { return const Text('');
+}
+}, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
+);
  
  
   void deleteAccount ()async{
@@ -133,7 +134,7 @@ Future getImage()async{
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
                   child:  ListTile( 
-                   leading: const Icon(Icons.person), title: Text('Name', style: AppWidget.lightFont2(),), subtitle: displayName
+                   leading: navIconGradient(const Icon(Icons.person, color: whiteColor,)), title: Text('Name', style: AppWidget.lightFont2(),), subtitle: displayName
                    ),
                 ),
               ),
@@ -143,7 +144,7 @@ Future getImage()async{
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
               child:  ListTile( 
-               leading: const Icon(Icons.email), title: Text('Email', style: AppWidget.lightFont2(),), 
+               leading: navIconGradient( const Icon(Icons.email, color: whiteColor,)), title: Text('Email', style: AppWidget.lightFont2(),), 
                subtitle: displayEmail
                ),
             ),
@@ -153,9 +154,9 @@ Future getImage()async{
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
               child:  ListTile( 
-               leading: const Icon(Icons.location_city), title: Text('Delivery Address', style: AppWidget.lightFont2(),), 
+               leading: navIconGradient(const Icon(Icons.location_city, color: whiteColor,)), title: Text('Delivery Address', style: AppWidget.lightFont2(),), 
                subtitle: displayAddress,
-               trailing: TextButton(onPressed: changeAddress, child:  Text('Change', style: TextStyle(color: ShowColors.secondary()),)), ),
+               trailing: TextButton(onPressed: changeAddress, child:  const Text('Change', style: TextStyle(color: secondaryColor),)), ),
             ),
           ), 
                SizedBox( height: MediaQuery.of(context).size.height/35,),
@@ -167,7 +168,7 @@ Future getImage()async{
                   return const TermsAndConditionsPage();
                 }));
               },
-               leading: Icon(MdiIcons.pen), title: Text('Terms and Conditions', style: AppWidget.lightFont2(),), 
+               leading: navIconGradient(Icon(MdiIcons.pen, color: whiteColor)), title: Text('Terms and Conditions', style: AppWidget.lightFont2(),), 
                ),
             ),
           ), 
@@ -176,7 +177,7 @@ Future getImage()async{
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
               child:  ListTile( onTap: deleteAccount,
-               leading: const Icon(Icons.delete), title: Text('Delete Account', style: AppWidget.lightFont2(),), 
+               leading: navIconGradient( const Icon(Icons.delete, color: whiteColor,)), title: Text('Delete Account', style: AppWidget.lightFont2(),), 
               subtitle: null, ),
             ),
           ),
@@ -185,7 +186,7 @@ Future getImage()async{
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
               child:  ListTile( onTap: signOut,
-               leading: const Icon(Icons.logout), title: Text('Sign Out', style: AppWidget.lightFont2(),), 
+               leading: navIconGradient(const Icon(Icons.logout, color: whiteColor,)), title: Text('Sign Out', style: AppWidget.lightFont2(),), 
                ),
             ),
           ) 
