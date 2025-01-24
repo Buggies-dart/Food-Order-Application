@@ -12,8 +12,9 @@ class Orders extends ConsumerStatefulWidget {
   @override
   ConsumerState<Orders> createState() => _OrderpageState();
 }
-
+ 
 class _OrderpageState extends ConsumerState<Orders> {
+ int productCount = 1;
   @override
   Widget build(BuildContext context) {
   final sizeHeight = MediaQuery.of(context).size.height;
@@ -80,15 +81,24 @@ return const Navigation();
 Padding(
 padding: EdgeInsets.only(left: sizeWidth/10),
 child: GestureDetector( onTap:  (){
+final totalCharge = cart['price'] * productCount;
+dialog(cart['image'], cart['name'], cart['category'],
+productCount,
+(){
+  Navigator.pop(context);
 showDialogBox(context, (){
-    if (wallet >= cart['price']) { purchase.removeWallet(cart['price']); 
+    if (wallet >= cart['price']) { purchase.removeWallet(totalCharge); 
   Navigator.pop(context);
   showOrderConfirmationDialog(context);
   } else {
   showSnackbar(context, 'Insufficient Balance, Top Up and Try Again');
   Navigator.pop(context);
    }
-}, (){Navigator.pop(context);}, 'Make Payment', '\$${cart['price'].toStringAsFixed(2)} will be deducted from your wallet, kindly confirm if you\'d like to pay');
+}, (){
+  
+  Navigator.pop(context);}, 'Make Payment', '\$${totalCharge.toStringAsFixed(2)} will be deducted from your wallet, kindly confirm if you\'d like to pay');
+});
+
 },
   child: Container( height: sizeHeight/22, width: sizeWidth/3.7, decoration: BoxDecoration(gradient: LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()]),
   borderRadius: BorderRadius.circular(10)),
@@ -118,8 +128,9 @@ showDialogBox(context, (){
       padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/28),
       child: TextButton(onPressed: (){
       showDialogBox(context, (){
-        setState(() {
-           cartInfo.clear(); 
+ ref.read(Providers.myNotifProvider).firestoreClearOrders(context);
+setState(() {
+cartInfo.clear(); 
         });
       Navigator.pop(context);
       }, (){Navigator.pop(context);}, 'Clear Order History', 'This action can\'t be undone, proceed?');
@@ -127,5 +138,70 @@ showDialogBox(context, (){
     );
   }
 
+  void dialog( String img, String name, String category, int addProduct, VoidCallback order){
+showDialog(context: context, builder: (context){
+return StatefulBuilder
+(
+  builder: (context, setDialogState)=> AlertDialog.adaptive(
+  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
   
+  icon: CircleAvatar( radius: 45, child: Image.network(img)), 
+  
+  title: Column(
+    children: [
+      Text(name, style:  Theme.of(context).textTheme.displayMedium),
+      Text(category, style:  Theme.of(context).textTheme.displaySmall),
+      const Divider( thickness: 0.2),
+    ],
+  ),
+  actions: [
+   GestureDetector( onTap: (){
+setDialogState (() {
+    addProduct++ ;                  
+}); 
+setState(() {
+  
+});
+  },
+    child: Container( height: MediaQuery.of(context).size.height/25, width: MediaQuery.of(context).size.width/12,
+   decoration: BoxDecoration(gradient: LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()]),
+    borderRadius: BorderRadius.circular(10)),
+      child: const Icon(Icons.add, color: whiteColor,)
+    ),
+  ),
+  Text(addProduct.toString(), style: Theme.of(context).textTheme.displaySmall,),
+  
+  GestureDetector( onTap: (){
+  setDialogState (() {
+  addProduct == 1 ? 1 :
+    addProduct-- ;                  
+}); 
+setState(() {
+  
+});
+  },
+    child: Container( height: MediaQuery.of(context).size.height/25, width: MediaQuery.of(context).size.width/12,
+  decoration: BoxDecoration(gradient: addProduct == 1 ? const LinearGradient(colors: [Colors.grey, Colors.grey])  : LinearGradient(colors:  [ShowColors.primary(), ShowColors.secondary()]),
+    borderRadius: BorderRadius.circular(10)),
+      child: const Icon(Icons.remove, color: whiteColor,)
+      ),
+  ),
+  
+   Padding(
+      padding: const EdgeInsets.only(left: 30),
+      child: GestureDetector( onTap: order,
+        child: Container( width: MediaQuery.of(context).size.width/4.5, height: MediaQuery.of(context).size.height/25,
+          decoration: BoxDecoration( borderRadius: BorderRadius.circular(10),
+        gradient:   LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()])
+        ),
+        child: const Center(child:  Text('Order', style: TextStyle( color: whiteColor, fontSize: 20),)),
+        ),
+      ),
+    ),
+  
+  ],
+  ),
+);
+});
+  }
 }

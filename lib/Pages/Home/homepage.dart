@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/Pages/Cart/foodcart.dart';
 import 'package:food_delivery_app/Widgets/food_categories.dart';
 import 'package:food_delivery_app/Widgets/mini_widgets.dart';
+import 'package:food_delivery_app/categories.dart';
 import 'package:food_delivery_app/state_management.dart';
 import 'package:food_delivery_app/utils.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -115,18 +116,21 @@ child: Padding(
           children: [
         Text('Special Deal For \nOctober', style: theme.textTheme.displayLarge,),
         SizedBox( height: sizeHeight/50,),
-        ElevatedButton(onPressed: (){},
+        ElevatedButton(onPressed: (){
+Navigator.push(context, MaterialPageRoute(builder: (context){
+return const Categories(category: 'Chickens');
+}));
+        },
         style: ElevatedButton.styleFrom(
         backgroundColor: whiteColor, elevation: 15,  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
         ),
          child: Text('Buy Now', style: TextStyle(
         fontSize: 16,
-                  foreground: Paint()
-                    ..shader =  LinearGradient(
-                      colors: [ShowColors.primary(), ShowColors.secondary()],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),)
+foreground: Paint()..shader =  LinearGradient(
+colors: [ShowColors.primary(), ShowColors.secondary()],
+begin: Alignment.topLeft,
+end: Alignment.bottomRight,
+).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),)
         )
         )],
         ),

@@ -109,6 +109,28 @@ return;  }
     }
  }
 }
+  Future<void> firestoreClearOrders(BuildContext context) async {
+  try {
+    // Get the user's cart document
+    DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId?.uid);
+
+    // Fetch the current cart data
+    DocumentSnapshot userSnapshot = await userRef.get();
+    if (userSnapshot.exists) {
+      List<dynamic> order = userSnapshot.get('order');
+      // Filter out the product to remove
+      order.clear();
+
+      // Update Firestore with the new cart
+      await userRef.update({'order': order});
+    
+    } 
+  } catch (e) {
+    if (context.mounted) {
+  showSnackbar(context, 'An unexpected error occurred, try again');
+    }
+ }
+}
 
   void addToCart(Map<String, dynamic> food) {
     cart.add(food);
