@@ -148,6 +148,26 @@ return;  }
     notifyListeners();
     saveStateToFirestore();
   }
+void increaseQuantity(String id){
+    var priceQuantity = order.firstWhere((foodProduct)=> foodProduct['name'] == id);
+    
+  priceQuantity['quantity']++;
+    notifyListeners();
+}
+void reduceQuantity(String id){
+  var priceQuantity = order.firstWhere((foodProduct)=> foodProduct['name'] == id);
+  if (priceQuantity['quantity'] == 1) {
+  1;
+  } else {
+     priceQuantity['quantity'] --;
+  }
+  notifyListeners();
+}
+  
+int getQuantity(String id) {
+    var foodProduct = order.firstWhere((foodProduct) => foodProduct['name'] == id, orElse: () => {'quantity': 0});
+    return foodProduct['quantity'];
+  }
 
   void addWallet(double amount) {
     wallet += amount;
