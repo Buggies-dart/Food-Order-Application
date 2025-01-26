@@ -53,13 +53,14 @@ return const Navigation();
       ),
     Expanded( child: ListView.builder( itemCount: cartInfo.length, padding: const EdgeInsets.only(top: 10), itemBuilder: (context, index){
        final cart = cartInfo[index];
-return SizedBox( height: 120,
+return SizedBox( height: sizeHeight/8,
 child: Padding( padding: const EdgeInsets.only(top: 10),
 child: Card( color: theme.colorScheme.primaryContainer,
 child: Row( 
 children: [
-const SizedBox( width: 15,), CircleAvatar( backgroundImage: NetworkImage(cart['image']),
-radius: 45,),
+ SizedBox( width: sizeWidth/20), 
+CircleAvatar( backgroundImage: NetworkImage(cart['image']),
+radius: sizeWidth/10),
 SizedBox( width: sizeWidth/10),
 Column( crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -78,7 +79,8 @@ Column( crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxi
      ),
 Padding(
 padding: EdgeInsets.only(left: sizeWidth/10),
-child: GestureDetector( onTap:  (){
+child: GestureDetector( 
+  onTap:  (){
  final prodctCount = ref.watch(Providers.myNotifProvider).getQuantity(cart['name']);
 dialog(cart['image'], cart['name'], cart['category'], 
 (){
@@ -101,7 +103,7 @@ showDialogBox(context, (){
 
 },
   child: Container( height: sizeHeight/22, width: sizeWidth/3.7, decoration: BoxDecoration(gradient: LinearGradient(colors: [ShowColors.primary(), ShowColors.secondary()]),
-  borderRadius: BorderRadius.circular(10)),
+  borderRadius: BorderRadius.circular(sizeHeight/80)),
   child: const Center(
    child:  Text('Order Again', style: TextStyle( fontSize: 18, color: whiteColor
         ),),

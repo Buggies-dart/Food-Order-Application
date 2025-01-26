@@ -126,30 +126,30 @@ Future getImage()async{
     
           ],
             ),
-         SizedBox( height: MediaQuery.of(context).size.height/14),
-        SingleChildScrollView( scrollDirection: Axis.vertical,
-          child: Column( 
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-                  child:  ListTile( 
-                   leading: navIconGradient(const Icon(Icons.person, color: whiteColor,)), title: Text('Name', style: AppWidget.lightFont2(),), subtitle: displayName
-                   ),
-                ),
-              ),
+SizedBox( height: MediaQuery.of(context).size.height/14),
+SingleChildScrollView( scrollDirection: Axis.vertical,
+child: Column( 
+children: [
+Padding(
+padding: const EdgeInsets.only(left: 20, right: 20),
+child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+child:  ListTile( 
+leading: navIconGradient(const Icon(Icons.person, color: whiteColor,)), title: Text('Name', style: AppWidget.lightFont2(),), subtitle: displayName
+),
+),
+),
            
-               SizedBox( height: MediaQuery.of(context).size.height/35,),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-              child:  ListTile( 
-               leading: navIconGradient( const Icon(Icons.email, color: whiteColor,)), title: Text('Email', style: AppWidget.lightFont2(),), 
-               subtitle: displayEmail
-               ),
-            ),
-          ), 
-               SizedBox( height: MediaQuery.of(context).size.height/35,),
+SizedBox( height: MediaQuery.of(context).size.height/35,),
+ Padding(
+ padding: const EdgeInsets.only(left: 20, right: 20),
+child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+child:  ListTile( 
+leading: navIconGradient( const Icon(Icons.email, color: whiteColor,)), title: Text('Email', style: AppWidget.lightFont2(),), 
+subtitle: displayEmail
+),
+),
+), 
+ SizedBox( height: MediaQuery.of(context).size.height/35,),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
@@ -159,16 +159,16 @@ Future getImage()async{
                trailing: TextButton(onPressed: changeAddress, child:  const Text('Change', style: TextStyle(color: secondaryColor),)), ),
             ),
           ), 
-               SizedBox( height: MediaQuery.of(context).size.height/35,),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-              child:  ListTile(  onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return const TermsAndConditionsPage();
-                }));
-              },
-               leading: navIconGradient(Icon(MdiIcons.pen, color: whiteColor)), title: Text('Terms and Conditions', style: AppWidget.lightFont2(),), 
+SizedBox( height: MediaQuery.of(context).size.height/35,),
+Padding(
+padding: const EdgeInsets.only(left: 20, right: 20),
+child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+child:  ListTile(  onTap: (){
+Navigator.push(context, MaterialPageRoute(builder: (context){
+return const TermsAndConditionsPage();
+}));
+},
+leading: navIconGradient(Icon(MdiIcons.pen, color: whiteColor)), title: Text('Terms and Conditions', style: AppWidget.lightFont2(),), 
                ),
             ),
           ), 

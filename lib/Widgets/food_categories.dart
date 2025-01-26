@@ -56,7 +56,7 @@ SizedBox( height: sizeHeight/4, width: double.infinity,
 padding: const EdgeInsets.only(top: 0),
 itemCount: 4, itemBuilder: (context, index){
  return Padding(
-    padding: const EdgeInsets.all(12),
+    padding: EdgeInsets.all(sizeWidth/35),
     child: GestureDetector( onTap: (){
 Navigator.push(context, MaterialPageRoute(builder: (context){
 return Categories(category: foodCategories[index]['name'].toString());
@@ -66,9 +66,9 @@ return Categories(category: foodCategories[index]['name'].toString());
         decoration: BoxDecoration(color: Theme.of(context).colorScheme.primaryContainer, borderRadius: BorderRadius.circular(10)),
       child: Column( 
       children: [
-        Container( color: null, height: sizeHeight/6,
+        Container(  color: null, height: sizeHeight/8,
           child: Image.asset(foodCategories[index]['image'].toString(), fit: BoxFit.contain,)),
-        const SizedBox( height: 5,),
+         SizedBox( height: sizeHeight/50),
         Text(foodCategories[index]['name'].toString(), style: Theme.of(context).textTheme.displayLarge,)
       ],
       ),
@@ -99,7 +99,8 @@ shape: BoxShape.circle,
      ),
    ),
  Expanded(
-child: ListView.builder(itemCount: randomFoods.length, padding: const EdgeInsets.only(top: 0),
+child: ListView.builder(itemCount: randomFoods.length, padding: const EdgeInsets.only(top: 0), 
+shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
  scrollDirection: Axis.vertical, itemBuilder: (context, index){
              final randomFood =randomFoods[index];
              return SizedBox( height: sizeHeight/10,

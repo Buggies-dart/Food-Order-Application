@@ -22,6 +22,7 @@ class _HomepageState extends ConsumerState<Homepage> {
     final usernameAsyncValue = ref.watch(Providers.userProvider);
     final cart = ref.watch(Providers.myNotifProvider).cart;
 final sizeHeight = MediaQuery.of(context).size.height;
+final sizeWidth = MediaQuery.of(context).size.width;
 final theme = Theme.of(context);
 return Scaffold(
 body: 
@@ -80,7 +81,7 @@ children: [
 Expanded(
 child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SizedBox( height: 60,
+      child: SizedBox( height: sizeHeight/20,
         child: TextField(
         decoration: InputDecoration(label:  Center(child: Text('What do you want to order?', style: TextStyle(color: theme.colorScheme.secondaryContainer, fontSize: 16),)), hintStyle: const TextStyle(color: secondaryColor),
         prefixIcon: Padding( padding: const EdgeInsets.only(left: 20),
@@ -111,7 +112,7 @@ child: Padding(
         children: [
         Image.network("https://res.cloudinary.com/dnkcbhh4n/image/upload/v1737274811/beer_can-removebg-preview_gp2pmj.png"),
         Padding(
-        padding: const EdgeInsets.only(top: 30, right: 20),
+        padding:  EdgeInsets.only(top: sizeHeight/30, right: sizeWidth/12),
         child: Column(
           children: [
         Text('Special Deal For \nOctober', style: theme.textTheme.displayLarge,),

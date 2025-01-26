@@ -71,8 +71,8 @@ Column(
     child: Card( color: theme.colorScheme.primaryContainer,
     child: Row( 
      children: [
-     Padding( padding: const EdgeInsets.all(10),
-    child: Container( height: 30, width: 30, decoration: BoxDecoration(
+     Padding( padding:  EdgeInsets.all(sizeHeight/65),
+    child: Container( height: 30, width: sizeWidth/15, decoration: BoxDecoration(
     border: Border.all( width: 2, color:theme.primaryColor), borderRadius: BorderRadius.circular(10)
     ),
       child:  Center(child: Text(cart['quantity'].toString(), style: TextStyle(color: theme.primaryColor),)),
@@ -81,7 +81,7 @@ Column(
     SizedBox( width: MediaQuery.of(context).size.width/25,),
     CircleAvatar( backgroundImage: NetworkImage(cart['image']),
     radius: MediaQuery.of(context).size.height/20,),
-    SizedBox( width: MediaQuery.of(context).size.width/15,),
+    SizedBox( width: MediaQuery.of(context).size.width/15),
     Column( mainAxisAlignment: MainAxisAlignment.center,
      children: [
     Text(cart['name'], style: theme.textTheme.displayMedium,), 
@@ -110,7 +110,7 @@ Column(
              children: [
          Container( height: sizeHeight/6, decoration: BoxDecoration( border: Border.all( width: 0, color: Colors.black26),
          color: null), 
-         child: Padding( padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+         child: Padding( padding: EdgeInsets.only(left: sizeWidth/10, right: sizeWidth/10, top: sizeHeight/50),
          child: Column(
            children: [
              foodPrices(theme, totalPrice, const Text('Sub Total', style: TextStyle( color: whiteColor, fontSize: 16)), 
@@ -130,20 +130,21 @@ Column(
          SizedBox( width: MediaQuery.of(context).size.width/1.1, height: sizeHeight/15,
          child: GestureDetector( onTap: checkOutFunction,
            child: Container(  decoration: BoxDecoration( color: whiteColor, borderRadius: BorderRadius.circular(10)
-      ),
-      child: Center(child: Text('CheckOut', style: TextStyle( fontSize: 25, fontWeight: FontWeight.bold,
-      foreground: Paint()..shader = LinearGradient( colors: [ShowColors.primary(), ShowColors.secondary()],
-      begin: Alignment.topLeft, end: Alignment.bottomRight,).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
-      ),
-      ))
-      ),
+                 ),
+                 child: Center(child: Text('CheckOut', style: TextStyle( fontSize: 25, fontWeight: FontWeight.bold,
+                 foreground: Paint()..shader = LinearGradient( colors: [ShowColors.primary(), ShowColors.secondary()],
+                 begin: Alignment.topLeft, end: Alignment.bottomRight,).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                 ),
+                 ))
+                 ),
       )
       ) ],
       ),
       ),
        ),
       ),
-      Positioned.fill(child: backgroundImage('assets/logos/backgroundimg2.png'))
+      Positioned.fill( left: sizeWidth/17, right: sizeWidth/19, top: sizeHeight/52, bottom: sizeHeight/52,
+        child: backgroundImage('assets/logos/backgroundimg2.png'))
       ]),
     ],
     ),

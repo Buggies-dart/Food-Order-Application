@@ -7,7 +7,9 @@ const secondaryContainer = Color(0xFFFF9012);
 const tertiaryContainer = Color(0xFFFEAD1D);
 const whiteColor2 = Colors.white60;
 
+
 class Palette{
+ 
   static var darkTheme = ThemeData.dark().copyWith(
   scaffoldBackgroundColor: blackColor,
   primaryColor: whiteColor,
@@ -18,7 +20,7 @@ class Palette{
   secondaryContainer: whiteColor,
   onSecondaryContainer:  const Color(0xFF252525),
   ),
-  textTheme: const TextTheme(
+  textTheme:  const TextTheme(
   displayLarge: TextStyle(
    fontSize: 30, fontWeight: FontWeight.bold
  ),
