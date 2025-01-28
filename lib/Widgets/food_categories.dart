@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/categories.dart';
+import 'package:food_delivery_app/Widgets/categories.dart';
 import 'package:food_delivery_app/Pages/Product%20Details/details.dart';
 import 'package:food_delivery_app/foods.dart';
 import 'package:food_delivery_app/utils.dart';
@@ -52,7 +52,8 @@ Padding(
   ),
 ),
 SizedBox( height: sizeHeight/4, width: double.infinity,
-  child: ListView.builder( scrollDirection: Axis.horizontal, controller: controller,
+  child: ListView.builder( scrollDirection: Axis.horizontal, controller: controller, shrinkWrap: true,
+
 padding: const EdgeInsets.only(top: 0),
 itemCount: 4, itemBuilder: (context, index){
  return Padding(

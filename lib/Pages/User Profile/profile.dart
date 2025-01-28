@@ -98,103 +98,109 @@ Future getImage()async{
   });
   } 
 }
-
+   
+final sizeHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Center(
-   child: Column(   children: [  Stack( clipBehavior: Clip.none, alignment: Alignment.center, 
-       children: [
-   Container(width: double.infinity, height: MediaQuery.of(context).size.height/4,
-    decoration: BoxDecoration( color: ShowColors.secondary(), borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width/3.5 ),
+   child: SingleChildScrollView( scrollDirection: Axis.vertical,
+     child: Column(   
+       children: [ 
+       Stack( clipBehavior: Clip.none, alignment: Alignment.center, 
+         children: [
+       Container(width: double.infinity, height: MediaQuery.of(context).size.height/4,
+      decoration: BoxDecoration( color: ShowColors.secondary(), borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(MediaQuery.of(context).size.width, MediaQuery.of(context).size.width/3.5 ),
+          ),
+                    ),
+      child: displayNameHeader,),
+                  Positioned(
+          top: MediaQuery.of(context).size.height/ 5.6, // Adjust this value to control the avatar's height
+                    child: GestureDetector( onTap: (){
+             getImage();
+                    },
+      child: Material( elevation: 10, shape: const CircleBorder(),
+                           child: selectedImage != null? 
+          CircleAvatar(  radius: MediaQuery.of(context).size.width/7.5,
+           backgroundImage:  FileImage(selectedImage!),
+     ): CircleAvatar(  radius: MediaQuery.of(context).size.width/7.5,
+                            child: Icon(MdiIcons.camera),
         ),
+                           ),
+                    ),
                   ),
-    child: displayNameHeader,),
-                Positioned(
-        top: MediaQuery.of(context).size.height/ 5.6, // Adjust this value to control the avatar's height
-                  child: GestureDetector( onTap: (){
-           getImage();
-                  },
-    child: Material( elevation: 10, shape: const CircleBorder(),
-                         child: selectedImage != null? 
-        CircleAvatar(  radius: MediaQuery.of(context).size.width/7.5,
-         backgroundImage:  FileImage(selectedImage!),
-   ): CircleAvatar(  radius: MediaQuery.of(context).size.width/7.5,
-                          child: Icon(MdiIcons.camera),
-      ),
-                         ),
-                  ),
-                ),
-    
-          ],
+      
+            ],
+              ),
+     SizedBox( height: MediaQuery.of(context).size.height/14),
+     SingleChildScrollView( scrollDirection: Axis.vertical,
+     child: Column( 
+     children: [
+     Padding(
+     padding: const EdgeInsets.only(left: 20, right: 20),
+     child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+     child:  ListTile( 
+     leading: navIconGradient(const Icon(Icons.person, color: whiteColor,)), title: Text('Name', style: AppWidget.lightFont2(),), subtitle: displayName
+     ),
+     ),
+     ),
+             
+     SizedBox( height: MediaQuery.of(context).size.height/35,),
+      Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+     child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+     child:  ListTile( 
+     leading: navIconGradient( const Icon(Icons.email, color: whiteColor,)), title: Text('Email', style: AppWidget.lightFont2(),), 
+     subtitle: displayEmail
+     ),
+     ),
+     ), 
+      SizedBox( height: MediaQuery.of(context).size.height/35,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+                child:  ListTile( 
+                 leading: navIconGradient(const Icon(Icons.location_city, color: whiteColor,)), title: Text('Delivery Address', style: AppWidget.lightFont2(),), 
+                 subtitle: displayAddress,
+                 trailing: TextButton(onPressed: changeAddress, child:  const Text('Change', style: TextStyle(color: secondaryColor),)), ),
+              ),
+            ), 
+     SizedBox( height: MediaQuery.of(context).size.height/35,),
+     Padding(
+     padding: const EdgeInsets.only(left: 20, right: 20),
+     child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+     child:  ListTile(  onTap: (){
+     Navigator.push(context, MaterialPageRoute(builder: (context){
+     return const TermsAndConditionsPage();
+     }));
+     },
+     leading: navIconGradient(Icon(MdiIcons.pen, color: whiteColor)), title: Text('Terms and Conditions', style: AppWidget.lightFont2(),), 
+                 ),
+              ),
+            ), 
+                 SizedBox( height: MediaQuery.of(context).size.height/35,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+                child:  ListTile( onTap: deleteAccount,
+                 leading: navIconGradient( const Icon(Icons.delete, color: whiteColor,)), title: Text('Delete Account', style: AppWidget.lightFont2(),), 
+                subtitle: null, ),
+              ),
             ),
-SizedBox( height: MediaQuery.of(context).size.height/14),
-SingleChildScrollView( scrollDirection: Axis.vertical,
-child: Column( 
-children: [
-Padding(
-padding: const EdgeInsets.only(left: 20, right: 20),
-child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-child:  ListTile( 
-leading: navIconGradient(const Icon(Icons.person, color: whiteColor,)), title: Text('Name', style: AppWidget.lightFont2(),), subtitle: displayName
-),
-),
-),
-           
-SizedBox( height: MediaQuery.of(context).size.height/35,),
- Padding(
- padding: const EdgeInsets.only(left: 20, right: 20),
-child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-child:  ListTile( 
-leading: navIconGradient( const Icon(Icons.email, color: whiteColor,)), title: Text('Email', style: AppWidget.lightFont2(),), 
-subtitle: displayEmail
-),
-),
-), 
- SizedBox( height: MediaQuery.of(context).size.height/35,),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-              child:  ListTile( 
-               leading: navIconGradient(const Icon(Icons.location_city, color: whiteColor,)), title: Text('Delivery Address', style: AppWidget.lightFont2(),), 
-               subtitle: displayAddress,
-               trailing: TextButton(onPressed: changeAddress, child:  const Text('Change', style: TextStyle(color: secondaryColor),)), ),
+                 SizedBox( height: MediaQuery.of(context).size.height/35,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
+                child:  ListTile( onTap: signOut,
+                 leading: navIconGradient(const Icon(Icons.logout, color: whiteColor,)), title: Text('Sign Out', style: AppWidget.lightFont2(),), 
+                 ),
+              ),
             ),
-          ), 
-SizedBox( height: MediaQuery.of(context).size.height/35,),
-Padding(
-padding: const EdgeInsets.only(left: 20, right: 20),
-child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-child:  ListTile(  onTap: (){
-Navigator.push(context, MaterialPageRoute(builder: (context){
-return const TermsAndConditionsPage();
-}));
-},
-leading: navIconGradient(Icon(MdiIcons.pen, color: whiteColor)), title: Text('Terms and Conditions', style: AppWidget.lightFont2(),), 
-               ),
-            ),
-          ), 
-               SizedBox( height: MediaQuery.of(context).size.height/35,),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-              child:  ListTile( onTap: deleteAccount,
-               leading: navIconGradient( const Icon(Icons.delete, color: whiteColor,)), title: Text('Delete Account', style: AppWidget.lightFont2(),), 
-              subtitle: null, ),
+            
+            ],
             ),
           ),
-               SizedBox( height: MediaQuery.of(context).size.height/35,),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Material( elevation: 2, shadowColor: Colors.black, borderRadius: BorderRadius.circular(15),
-              child:  ListTile( onTap: signOut,
-               leading: navIconGradient(const Icon(Icons.logout, color: whiteColor,)), title: Text('Sign Out', style: AppWidget.lightFont2(),), 
-               ),
-            ),
-          ) 
-           ],
+       SizedBox( height:  sizeHeight/10)   ]
           ),
-        ),
-        ]
-        ),
+   ),
       ),
     );
   }
