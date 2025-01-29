@@ -29,7 +29,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   final displayEmail = emailAsyncValue.when(
   data: (email) {
     if (email != null) {
-      return Text(email, style: AppWidget.lightFont2());
+      return Text(email, style: Theme.of(context).textTheme.displaySmall);
     } else {
       return const Text('');
     }
@@ -56,9 +56,9 @@ return Text(username, style: AppWidget.lightFont2()) ; } else { return const Tex
 }, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
 );
   
-final displayAddress =  addressAsyncValue.when(data: (email){
-if (email != null) {
-return Text(email, style: AppWidget.lightFont2()) ; } else { return const Text('');
+final displayAddress =  addressAsyncValue.when(data: (address){
+if (address != null) {
+return Text(address, style: Theme.of(context).textTheme.displaySmall) ; } else { return const Text('');
 }
 }, error:(error, _) => Text('Error: $error'),  loading: ()=> const Text('')
 );

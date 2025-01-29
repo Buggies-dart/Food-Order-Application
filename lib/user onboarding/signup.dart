@@ -20,19 +20,13 @@ final TextEditingController controllerMail = TextEditingController();
 final TextEditingController controllerPass = TextEditingController();
 final TextEditingController addressController = TextEditingController();
 List<String> suggestions = [];
+bool showSuggestions = false;
 
-@override
-  void initState() {
-super.initState();
-addressController.addListener(
-(){getUserAddress(addressController.text);}
-);
-}
 
 @override
   void dispose() {
     super.dispose();
-    controllerName; controllerMail; controllerPass;
+    controllerName; controllerMail; controllerPass; addressController; 
   }
 
   void logIn(){
@@ -52,24 +46,27 @@ suggestions = (data['features'] as List).map((feature) {
 final String place = feature['place_name'] as String;
 final contextDetails = feature['context'] as List<dynamic>?;
 
-final neighborhood = contextDetails?.firstWhere(
-(item) => item['id'].toString().startsWith('neighborhood'),
-orElse: () => null,
-)?['text'] ??
-'';
+// final neighborhood = contextDetails?.firstWhere(
+// (item) => item['id'].toString().startsWith('neighborhood'),
+// orElse: () => null,
+// )?['text'] ??
+// '';
 final city = contextDetails?.firstWhere(
 (item) => item['id'].toString().startsWith('place'),
-orElse: () => null,
+orElse: () => null
 )?['text'] ??
 '';
-  return '$place\nStreet, $neighborhood\nNeighborhood, $city\nCity';
+showSuggestions = true;
+  return '$place, $city';
 }).toList();
 });
 print(suggestions);
 }
+
 } else {
 setState(() {
  suggestions;
+ showSuggestions = false;
   }); 
 }
 }
@@ -109,44 +106,68 @@ TextButton(onPressed: logIn, child: Text('Log In', style: theme.textTheme.displa
 ],
 ),
 ), ), 
-Center(child: SizedBox( height: MediaQuery.of(context).size.height/1.5, width: 400,
-child: Padding(
-padding: const EdgeInsets.only(top: 20),
-child: Card(  color: theme.colorScheme.primaryContainer, shadowColor: Colors.black, elevation: 10,
-margin: EdgeInsets.only( bottom:  MediaQuery.of(context).size.height/11),
-                    
-child: Padding(
-padding: const EdgeInsets.only(top: 20), child: Column(
-children: [
-Text('Sign Up', style: AppWidget.largefontBold()),
-signUpFields(Icons.person, 'Name', controllerName),
-signUpFields(Icons.mail, 'Email', controllerMail),
-signUpFields(Icons.password, 'Password', controllerPass),
-signUpFields(Icons.home, 'Enter Your Home Address', addressController),
+Stack(
+  children: [ Center(child: SizedBox( height: MediaQuery.of(context).size.height/1.5, width: 400,
+  child: Padding(
+  padding: const EdgeInsets.only(top: 20),
+  child: Card(  color: theme.colorScheme.primaryContainer, shadowColor: Colors.black, elevation: 10,
+  margin: EdgeInsets.only( bottom:  MediaQuery.of(context).size.height/11),
+                      
+  child: Padding(
+  padding: const EdgeInsets.only(top: 20), child: Column(
+  children: [
+  Text('Sign Up', style: AppWidget.largefontBold()),
+  signUpFields(Icons.person, 'Name', controllerName),
+  signUpFields(Icons.mail, 'Email', controllerMail),
+  signUpFields(Icons.password, 'Password', controllerPass),
+  signUpFields(Icons.home, 'Enter Your Home Address', addressController),
 
-Flexible( fit: FlexFit.loose, 
-child: ListView.builder( itemCount: suggestions.length, itemBuilder: (context, index){
-return  ListTile( tileColor: blackColor,
-title: Text(suggestions[index], style: const TextStyle(color: whiteColor),),
-);
-})),
 const Align( alignment: Alignment.centerRight,
-child: Padding(
-padding: EdgeInsets.only(right: 15),
-),
-),
-const Spacer(),
-Padding( padding: EdgeInsets.all(MediaQuery.of(context).size.height / 40),
-child: signupButton(()async{
-await FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(username: controllerName.text, mail: controllerMail.text, password: controllerPass.text, context: context, address: addressController.text);
-}),
-) 
-],
-),
-),),
+  child: Padding(
+  padding: EdgeInsets.only(right: 15),
+  ),
+  ),
+  const Spacer(),
+  Padding( padding: EdgeInsets.all(MediaQuery.of(context).size.height / 40),
+  child: signupButton(()async{
+  await FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(username: controllerName.text, mail: controllerMail.text, password: controllerPass.text, context: context, address: addressController.text);
+  }),
+  ) 
+  ],
+  ),
+  ),),
+  ),
+  )
+  ),
+  showSuggestions && suggestions.isNotEmpty?
+Positioned( top: MediaQuery.of(context).size.height/1.65, left: MediaQuery.of(context).size.width/8.2,
+child: Center(
+  child: Material( elevation: 5, shadowColor: blackColor,
+    child: Container(  width: MediaQuery.of(context).size.width/1.3, color: theme.colorScheme.primaryContainer, 
+     child: 
+     SizedBox( height:  MediaQuery.of(context).size.height/3,
+      child: ListView.builder( padding: const EdgeInsets.only(top: 0),
+    itemCount: suggestions.length, itemBuilder: (context, index){
+    return  ListTile( onTap: (){
+     setState(() {
+    addressController.text = suggestions[index];
+    if (addressController.text == suggestions[index]) {
+    showSuggestions = false;
+    suggestions.clear();
+    }
+    else{ showSuggestions; suggestions;}
+     }); 
+    
+    },
+    title: Text(suggestions[index], style: theme.textTheme.displaySmall),
+    );
+    })
+    )
+     ),
+  ),
 ),
 )
-)
+: const Text('')])
 ],
  ),
 );
@@ -167,6 +188,7 @@ child: Center(child: Text('SIGN UP', style: AppWidget.buttonText())),),
   Padding signUpFields(IconData icon, String hint, TextEditingController textController) {
 return Padding( padding: const EdgeInsets.all(20),
 child:  TextField( controller: textController,  style:  Theme.of(context).textTheme.displaySmall,
+onChanged: hint == 'Enter Your Home Address'? (value)=> getUserAddress(value) : null,
 obscureText: hint == 'Password' && showPassword == false? true : false,
 decoration: InputDecoration( prefixIcon: Padding(
 padding: const EdgeInsets.only(bottom: 8),
