@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/Pages/navigation.dart';
-import 'package:food_delivery_app/admin/adminhome.dart';
 import 'package:food_delivery_app/firebase%20auth/firebaseutils.dart';
 import 'package:food_delivery_app/user%20onboarding/login.dart';
+
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
@@ -95,43 +96,43 @@ class FirebaseAuthMethods {
 }
   }
   //  Admin Login
-  Future<void> adminLogin(String id, String password, BuildContext context) async {
-  try {
-    // Query Firestore for an admin with the provided name and password
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('Admin')
-        .where('id', isEqualTo: id)
-        .where('password', isEqualTo: password)
-        .get();
+//   Future<void> adminLogin(String id, String password, BuildContext context) async {
+//   try {
+//     // Query Firestore for an admin with the provided name and password
+//     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+//         .collection('Admin')
+//         .where('id', isEqualTo: id)
+//         .where('password', isEqualTo: password)
+//         .get();
 
-    // Check if any document matches the query
-    if (querySnapshot.docs.isNotEmpty) {
-      // If a document is found, navigate to the admin home page
-      if (context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Adminhome(),
-          ),
-        );
-      }
-    } else {
-      // If no document matches, show an error
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-        const  SnackBar(content: Text('User not found or incorrect credentials')),
-        );
-      }
-    }
-  } catch (e) {
-    // Catch and display any errors that occur during login
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
-    }
-  }
-}
+//     // Check if any document matches the query
+//     if (querySnapshot.docs.isNotEmpty) {
+//       // If a document is found, navigate to the admin home page
+//       if (context.mounted) {
+//         Navigator.pushReplacement(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => const Adminhome(),
+//           ),
+//         );
+//       }
+//     } else {
+//       // If no document matches, show an error
+//       if (context.mounted) {
+//         ScaffoldMessenger.of(context).showSnackBar(
+//         const  SnackBar(content: Text('User not found or incorrect credentials')),
+//         );
+//       }
+//     }
+//   } catch (e) {
+//     // Catch and display any errors that occur during login
+//     if (context.mounted) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('An error occurred: $e')),
+//       );
+//     }
+//   }
+// }
 
 // DELETE USER ACCOUNT
 Future<void> deleteAccount(BuildContext context) async{
@@ -184,7 +185,8 @@ const LoginUI()));
 }
 }
 // CONFIRM PASSWORD
-Future<void> confirmPassword(BuildContext context, String password, TextEditingController controller) async{
+Future<void> confirmPassword(BuildContext context, String password, TextEditingController controller,
+WidgetRef ref) async{
   final user = FirebaseAuth.instance.currentUser;
 
 try {
@@ -198,7 +200,7 @@ try {
     showChangeAddressModal(context, (){
       changeAddress(context, controller.text);
       Navigator.pop(context);
-    }, controller);
+    }, controller, ref);
   }
    
  }

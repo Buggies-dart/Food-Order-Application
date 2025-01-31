@@ -45,12 +45,6 @@ setState(() {
 suggestions = (data['features'] as List).map((feature) {
 final String place = feature['place_name'] as String;
 final contextDetails = feature['context'] as List<dynamic>?;
-
-// final neighborhood = contextDetails?.firstWhere(
-// (item) => item['id'].toString().startsWith('neighborhood'),
-// orElse: () => null,
-// )?['text'] ??
-// '';
 final city = contextDetails?.firstWhere(
 (item) => item['id'].toString().startsWith('place'),
 orElse: () => null
@@ -60,7 +54,6 @@ showSuggestions = true;
   return '$place, $city';
 }).toList();
 });
-print(suggestions);
 }
 
 } else {

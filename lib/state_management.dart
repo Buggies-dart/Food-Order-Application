@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_delivery_app/MapBox%20API/mapbox.dart';
 import 'package:food_delivery_app/firebase%20auth/firebaseutils.dart';
 
 class Providers {
@@ -41,16 +42,33 @@ static final userProvider = FutureProvider<String?>((ref) async {
   }
 });
 
-//  Add To Cart, Orders
 static final myNotifProvider = ChangeNotifierProvider<StateProvider>((ref)=> StateProvider());
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
 class StateProvider extends ChangeNotifier {
+  
+  // Parameters for carts, orders and wallet
   List<Map<String, dynamic>> cart = [];
   List<Map<String, dynamic>> order = [];
   double wallet = 0;
-
+  
+//  Parameters for getting MapBox Addresses
+  List<String> suggestions = [];
+  bool showSuggestions = false;
+  String selectedAddress = '';
+  // Firestore and FirebaseAuth
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final User? userId = FirebaseAuth.instance.currentUser;
 
@@ -188,4 +206,38 @@ int getQuantity(String id) {
   notifyListeners();
 }
 
+// Get Users Address From MapBoxAPI
+
+Future<void> getUserAddress(String query, BuildContext context)  async{
+if (query.isNotEmpty) {
+final data =  await getLocation(context, query);
+
+if (data != null && data['features'] != null) {
+
+suggestions = (data['features'] as List).map((feature) {
+final String place = feature['place_name'] as String;
+final contextDetails = feature['context'] as List<dynamic>?;
+final city = contextDetails?.firstWhere(
+(item) => item['id'].toString().startsWith('place'),
+orElse: () => null
+)?['text'] ??
+'';
+showSuggestions = true;
+  return '$place, $city';
+}).toList();
+  showSuggestions = suggestions.isNotEmpty;
+}
+
+} else {
+ suggestions.clear();
+ showSuggestions = false;
+}
+notifyListeners();
+}
+ void updateSelectedAddress(String address) {
+    selectedAddress = address;
+    showSuggestions = false;
+    suggestions.clear();
+    notifyListeners();
+  }
 }

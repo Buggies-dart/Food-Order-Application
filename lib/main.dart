@@ -30,7 +30,7 @@ return Consumer(
 ref.read(Providers.myNotifProvider).loadStateFromFirestore();
 return MaterialApp( debugShowCheckedModeBanner: false,
 darkTheme: Palette.darkTheme, theme: Palette.lightTheme,
-themeMode: ThemeMode.dark,
+themeMode: ThemeMode.light,
  home:  StreamBuilder<User?>(
 stream: FirebaseAuth.instance.authStateChanges(),
 builder: (context, snapshot) {

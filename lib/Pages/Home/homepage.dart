@@ -82,49 +82,50 @@ child: Row(
 children: [
 Expanded(
 child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SizedBox( height: sizeHeight/20,
-        child: TextField(
-        decoration: InputDecoration(label:  Center(child: Text('What do you want to order?', style: TextStyle(color: theme.colorScheme.secondaryContainer, fontSize: 16),)), hintStyle: const TextStyle(color: secondaryColor),
-        prefixIcon: Padding( padding: const EdgeInsets.only(left: 20),
-        child: Icon(Icons.search,   color:  theme.colorScheme.secondaryContainer, size: 30,),
-          ), focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20)), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25), borderSide: BorderSide.none),
-         filled: true, fillColor: theme.colorScheme.onSecondaryContainer),
-          ),
-      ),
-      ),
-      ),
-      GestureDetector(  onTap: (){
-      final results = showSearch(context: context, delegate: FoodSearch(
+padding: const EdgeInsets.symmetric(horizontal: 10),
+child: SizedBox( height: sizeHeight/20,
+child: TextField(
+decoration: InputDecoration(label:  Center(child: Text('What do you want to order?', style: TextStyle(color: theme.colorScheme.secondaryContainer, fontSize: 16),)), hintStyle: const TextStyle(color: secondaryColor),
+prefixIcon: Padding( padding: const EdgeInsets.only(left: 20),
+child: Icon(Icons.search,   color:  theme.colorScheme.secondaryContainer, size: 30,),
+), focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20)), enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(25), borderSide: BorderSide.none),
+filled: true, fillColor: theme.colorScheme.onSecondaryContainer),
+),
+),
+),
+),
+GestureDetector(  onTap: (){
+final results = showSearch(context: context, delegate: FoodSearch(
 searchTextStyle: theme.textTheme.displayMedium!
-      ));
-        },
-        child: Container( height: sizeHeight/20, width: sizeHeight/20, decoration:  BoxDecoration( color: theme.colorScheme.onSecondaryContainer, borderRadius: const BorderRadius.all(Radius.circular(10)) ),
-        child: Icon(Icons.filter_list, color: theme.colorScheme.secondaryContainer), 
-        ),
-      )
-      ],
-      ),
-    ),
-  SizedBox( height: sizeHeight/50),
-    Stack(
-      children: [Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Container( width: double.infinity, height: sizeHeight/5,
-        decoration: BoxDecoration( borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(colors: [
-        ShowColors.primary(), ShowColors.secondary()
-        ])
-        ),    
-          child: Row(
-        children: [
-        Image.network("https://res.cloudinary.com/dnkcbhh4n/image/upload/v1737274811/beer_can-removebg-preview_gp2pmj.png"),
-        Padding(
-        padding:  EdgeInsets.only(top: sizeHeight/30, right: sizeWidth/12),
-        child: Column(
-          children: [
-        Text('Special Deal For \nOctober', style: theme.textTheme.displayLarge,),
-        SizedBox( height: sizeHeight/50,),
+));
+},
+child: Container( height: sizeHeight/20, width: sizeHeight/20, decoration:  BoxDecoration( color: theme.colorScheme.onSecondaryContainer, borderRadius: const BorderRadius.all(Radius.circular(10)) ),
+child: Icon(Icons.filter_list, color: theme.colorScheme.secondaryContainer), 
+),
+)
+],
+),
+),
+
+SizedBox( height: sizeHeight/50),
+Stack(
+children: [Padding(
+padding: const EdgeInsets.symmetric(horizontal: 10),
+child: Container( width: double.infinity, height: sizeHeight/5,
+decoration: BoxDecoration( borderRadius: BorderRadius.circular(20),
+gradient: LinearGradient(colors: [
+ShowColors.primary(), ShowColors.secondary()
+])
+),    
+child: Row(
+children: [
+Image.network("https://res.cloudinary.com/dnkcbhh4n/image/upload/v1737274811/beer_can-removebg-preview_gp2pmj.png"),
+Padding(
+padding:  EdgeInsets.only(top: sizeHeight/30, right: sizeWidth/12),
+child: Column(
+children: [
+Text('Special Deal For \nOctober', style: theme.textTheme.displayLarge,),
+SizedBox( height: sizeHeight/50,),
 
 SizedBox( height: sizeHeight/23,
 child: ElevatedButton(onPressed: chickenPage,
@@ -134,31 +135,31 @@ backgroundColor: whiteColor, elevation: 15,  shape: RoundedRectangleBorder(borde
 child: Text('Buy Now', style: TextStyle( fontSize: 16, foreground: Paint()..shader =  LinearGradient(
  colors: [ShowColors.primary(), ShowColors.secondary()],
 begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          ).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),)
-          )
-          ),
-        )],
-        ),
-        )
-        ],
-          ),
-        ),
-      ),
-  Positioned.fill( left: sizeWidth/19, right: sizeWidth/19, top: sizeHeight/70, bottom: sizeHeight/70,
+end: Alignment.bottomRight,
+).createShader( const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),)
+)
+),
+)],
+),
+)
+],
+),
+),
+),
+Positioned.fill( left: sizeWidth/19, right: sizeWidth/19, top: sizeHeight/70, bottom: sizeHeight/70,
     child: backgroundImage('assets/logos/backgroundimg2.png'))
 ]
   ),
-  SizedBox( height: sizeHeight,
+SizedBox( height: sizeHeight,
     child: const FoodCategories())
-   ],
-  ),
+],
+),
 backgroundImage('assets/logos/backgroundimg.png')
 ]
 ),
 ),
  );
-  }
+}
 void chickenPage(){
 Navigator.push(context, MaterialPageRoute(builder: (context){
 return const Categories(category: 'Chickens');
@@ -202,10 +203,10 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
   Widget buildResults(BuildContext context) {
 
  return Column(
-      children: [
-        Categories(category: query),
-      ],
-    );
+children: [
+Categories(category: query),
+],
+);
   }
  
   @override
