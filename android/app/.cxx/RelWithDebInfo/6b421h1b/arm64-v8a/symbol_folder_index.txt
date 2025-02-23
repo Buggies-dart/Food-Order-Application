@@ -1,0 +1,1 @@
+C:\Users\user\Desktop\food_delivery_app\build\app\intermediates\cxx\RelWithDebInfo\6b421h1b\obj\arm64-v8a

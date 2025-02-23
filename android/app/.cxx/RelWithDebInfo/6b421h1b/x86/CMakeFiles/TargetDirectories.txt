@@ -1,0 +1,2 @@
+C:/Users/user/Desktop/food_delivery_app/android/app/.cxx/RelWithDebInfo/6b421h1b/x86/CMakeFiles/edit_cache.dir
+C:/Users/user/Desktop/food_delivery_app/android/app/.cxx/RelWithDebInfo/6b421h1b/x86/CMakeFiles/rebuild_cache.dir
