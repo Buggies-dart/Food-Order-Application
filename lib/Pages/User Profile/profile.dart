@@ -249,7 +249,7 @@ shape: RoundedRectangleBorder(
 borderRadius: BorderRadius.circular(20),
  ),),
 onPressed: ontap, child: Text('Done', style: AppWidget.buttonText(),)),
-            ),
+),
           )
         ],
       ),
